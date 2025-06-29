@@ -1,1 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Nebulla Fragrance</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FDFBF9; color: #4B4B4B; }
+        h1, h2, h3, h4, .font-display { font-family: 'Cormorant Garamond', serif; }
+        html[dir="rtl"] body, html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] h4, html[dir="rtl"] .font-display, html[dir="rtl"] button, html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] a { font-family: 'Cairo', sans-serif; }
+        #mobileMenu { transition: transform 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="text-3xl font-bold font-display text-rose-900">Nebulla Fragrance</a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_home">Home</a>
+                    <a href="products.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_products">Products</a>
+                    <a href="about.html" class="text-rose-500 font-semibold border-b-2 border-rose-500 pb-1" data-lang-key="nav_about">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_contact">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">AR</button>
+                    <a href="cart.html" class="relative text-gray-600 hover:text-rose-500">
+                        <i class="fas fa-shopping-bag fa-lg"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                    <button id="mobileMenuToggle" class="lg:hidden text-gray-600 hover:text-rose-500"><i class="fas fa-bars fa-lg"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobileMenu" class="fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-[60] transform translate-x-full lg:hidden">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="font-display text-2xl text-rose-900" data-lang-key="menu_title">Menu</h2>
+                <button id="closeMobileMenu" class="text-gray-600 hover:text-rose-500"><i class="fas fa-times fa-lg"></i></button>
+            </div>
+            <nav class="flex flex-col space-y-6">
+                <a href="index.html" class="text-lg text-gray-700" data-lang-key="nav_home_mobile">Home</a>
+                <a href="products.html" class="text-lg text-gray-700" data-lang-key="nav_products_mobile">Products</a>
+                <a href="about.html" class="text-lg text-rose-500 font-semibold" data-lang-key="nav_about_mobile">About</a>
+                <a href="contact.html" class="text-lg text-gray-700" data-lang-key="nav_contact_mobile">Contact</a>
+            </nav>
+        </div>
+    </div>
+    <div id="mobileMenuOverlay" class="fixed inset-0 bg-black/40 z-55 hidden lg:hidden"></div>
+
+    <main>
+        <section class="relative bg-rose-800 text-white py-20 md:py-32 text-center overflow-hidden">
+            <div class="absolute inset-0 bg-black/30"></div>
+            <img src="https://images.unsplash.com/photo-1557053910-d9eadeed1c58?q=80&w=1887&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover object-center" alt="Woman with perfume">
+            <div class="relative container mx-auto px-4">
+                <h1 class="text-5xl md:text-7xl font-display font-semibold mb-4" data-lang-key="about_hero_title">The Art of Scent</h1>
+                <p class="text-lg md:text-xl max-w-2xl mx-auto text-rose-100" data-lang-key="about_hero_subtitle">Discover the story, passion, and people behind Nebulla Fragrance.</p>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="prose prose-lg max-w-none text-gray-600" data-lang-key="our_story_text">
+                        <h2 class="font-display text-4xl md:text-5xl text-gray-800 mb-6" data-lang-key="our_story_title">Our Story</h2>
+                        <p>Founded on a deep passion for the evocative power of fragrance, Nebulla Fragrance was born from a desire to connect people with the world's most exquisite scents. We believe that a perfume is more than just a pleasant aroma; it's a form of art, a personal signature, and a vessel for cherished memories.</p>
+                        <p>Our journey began with a simple mission: to curate a collection that celebrates both timeless classics and innovative new creations. We travel the globe to build relationships with master perfumers and emerging artisans, ensuring every bottle we offer tells a unique and captivating story.</p>
+                    </div>
+                    <div><img src="https://images.unsplash.com/photo-1598454449072-3dc6a57c16e7?q=80&w=1887&auto=format&fit=crop" alt="Perfume bottles and ingredients" class="rounded-lg shadow-2xl"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24 bg-rose-50">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl md:text-5xl font-display text-gray-800 mb-12" data-lang-key="values_title">Our Core Values</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg transform hover:-translate-y-2 transition-transform">
+                        <div class="text-4xl text-rose-800 mb-4"><i class="fas fa-gem"></i></div>
+                        <h3 class="text-2xl font-display font-semibold text-gray-900 mb-2" data-lang-key="value1_title">Uncompromising Quality</h3>
+                        <p class="text-gray-600" data-lang-key="value1_desc">We source only authentic, premium fragrances, ensuring every product meets our exacting standards of excellence.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg transform hover:-translate-y-2 transition-transform">
+                        <div class="text-4xl text-rose-800 mb-4"><i class="fas fa-hand-holding-heart"></i></div>
+                        <h3 class="text-2xl font-display font-semibold text-gray-900 mb-2" data-lang-key="value2_title">Personalized Curation</h3>
+                        <p class="text-gray-600" data-lang-key="value2_desc">Our expert team is dedicated to providing personalized guidance to help you discover your perfect fragrance match.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg transform hover:-translate-y-2 transition-transform">
+                        <div class="text-4xl text-rose-800 mb-4"><i class="fas fa-leaf"></i></div>
+                        <h3 class="text-2xl font-display font-semibold text-gray-900 mb-2" data-lang-key="value3_title">Ethical Commitment</h3>
+                        <p class="text-gray-600" data-lang-key="value3_desc">We are committed to supporting brands that prioritize sustainable sourcing and ethical production practices.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl md:text-5xl font-display text-gray-800 mb-12" data-lang-key="founder_title">Meet Our Founder</h2>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 items-center">
+                    <div class="md:col-span-1"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop" alt="Founder's Portrait" class="w-48 h-48 md:w-full md:h-auto object-cover rounded-full md:rounded-lg shadow-xl mx-auto"></div>
+                    <div class="md:col-span-2 text-left" dir="ltr">
+                        <h3 class="text-3xl font-display font-semibold text-gray-900">Elara Vance</h3>
+                        <p class="text-rose-800 font-semibold mb-4" data-lang-key="founder_role">Founder & Chief Perfumer</p>
+                        <p class="text-gray-600" data-lang-key="founder_quote">"Fragrance is the most intimate form of memory. At Nebulla, we don't just sell perfumes; we curate experiences. Each scent is a journey, and it's my life's work to help you find the one that speaks to your soul."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300">
+        <div class="container mx-auto px-4 py-16">
+            <!-- Footer content -->
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const translations = {
+        en: {
+            nav_home: "Home", nav_products: "Products", nav_about: "About", nav_contact: "Contact", menu_title: "Menu", nav_home_mobile: "Home", nav_products_mobile: "Products", nav_about_mobile: "About", nav_contact_mobile: "Contact",
+            about_hero_title: "The Art of Scent", about_hero_subtitle: "Discover the story, passion, and people behind Nebulla Fragrance.",
+            our_story_title: "Our Story",
+            our_story_text: `<h2 class="font-display text-4xl md:text-5xl text-gray-800 mb-6" data-lang-key="our_story_title">Our Story</h2><p>Founded on a deep passion for the evocative power of fragrance, Nebulla Fragrance was born from a desire to connect people with the world's most exquisite scents. We believe that a perfume is more than just a pleasant aroma; it's a form of art, a personal signature, and a vessel for cherished memories.</p><p>Our journey began with a simple mission: to curate a collection that celebrates both timeless classics and innovative new creations. We travel the globe to build relationships with master perfumers and emerging artisans, ensuring every bottle we offer tells a unique and captivating story.</p>`,
+            values_title: "Our Core Values",
+            value1_title: "Uncompromising Quality", value1_desc: "We source only authentic, premium fragrances, ensuring every product meets our exacting standards of excellence.",
+            value2_title: "Personalized Curation", value2_desc: "Our expert team is dedicated to providing personalized guidance to help you discover your perfect fragrance match.",
+            value3_title: "Ethical Commitment", value3_desc: "We are committed to supporting brands that prioritize sustainable sourcing and ethical production practices.",
+            founder_title: "Meet Our Founder", founder_role: "Founder & Chief Perfumer", founder_quote: `"Fragrance is the most intimate form of memory. At Nebulla, we don't just sell perfumes; we curate experiences. Each scent is a journey, and it's my life's work to help you find the one that speaks to your soul."`
+        },
+        ar: {
+            nav_home: "الرئيسية", nav_products: "المنتجات", nav_about: "من نحن", nav_contact: "اتصل بنا", menu_title: "القائمة", nav_home_mobile: "الرئيسية", nav_products_mobile: "المنتجات", nav_about_mobile: "من نحن", nav_contact_mobile: "اتصل بنا",
+            about_hero_title: "فن العطور", about_hero_subtitle: "اكتشف القصة والشغف والأشخاص وراء نيبولا للعطور.",
+            our_story_title: "قصتنا",
+            our_story_text: `<h2 class="font-display text-4xl md:text-5xl text-gray-800 mb-6" data-lang-key="our_story_title">قصتنا</h2><p>تأسست نيبولا للعطور على شغف عميق بالقوة المؤثرة للعطور، وقد ولدت من رغبة في ربط الناس بأروع الروائح في العالم. نحن نؤمن بأن العطر هو أكثر من مجرد رائحة لطيفة؛ إنه شكل من أشكال الفن، وتوقيع شخصي، ووعاء للذكريات العزيزة.</p><p>بدأت رحلتنا بمهمة بسيطة: تنظيم مجموعة تحتفي بالكلاسيكيات الخالدة والإبداعات الجديدة المبتكرة. نسافر حول العالم لبناء علاقات مع كبار صانعي العطور والحرفيين الناشئين، مما يضمن أن كل زجاجة نقدمها تروي قصة فريدة وآسرة.</p>`,
+            values_title: "قيمنا الأساسية",
+            value1_title: "جودة لا تهاون فيها", value1_desc: "نحن نستورد فقط العطور الأصلية والممتازة، مما يضمن أن كل منتج يلبي معاييرنا الصارمة للتميز.",
+            value2_title: "تنظيم شخصي", value2_desc: "فريق الخبراء لدينا مكرس لتقديم إرشادات شخصية لمساعدتك في اكتشاف عطرك المثالي.",
+            value3_title: "الالتزام الأخلاقي", value3_desc: "نحن ملتزمون بدعم العلامات التجارية التي تعطي الأولوية للمصادر المستدامة وممارسات الإنتاج الأخلاقية.",
+            founder_title: "تعرف على مؤسستنا", founder_role: "المؤسس وكبير العطارين", founder_quote: `"العطر هو أكثر أشكال الذاكرة حميمية. في نيبولا، نحن لا نبيع العطور فحسب؛ بل ننظم التجارب. كل رائحة هي رحلة، وعمل حياتي هو مساعدتك في العثور على تلك التي تخاطب روحك."`
+        }
+    };
+
+    const langSwitcher = document.getElementById('lang-switcher');
+    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('nebulla-lang', lang);
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        langSwitcher.textContent = lang === 'en' ? 'AR' : 'EN';
+        
+        document.querySelectorAll('[data-lang-key]').forEach(el => {
+            const key = el.dataset.langKey;
+            if (translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+    }
+
+    langSwitcher.addEventListener('click', () => setLanguage(currentLang === 'en' ? 'ar' : 'en'));
+
+    class CartManager {
+        constructor() { this.cartKey = 'nebulla_fragrance_cart_v2'; this.cart = this.loadCart(); this.updateCartDisplay(); }
+        loadCart() { try { const i = localStorage.getItem(this.cartKey); return i ? JSON.parse(i) : []; } catch (e) { return []; } }
+        getCartCount() { return this.cart.reduce((t, i) => t + i.quantity, 0); }
+        updateCartDisplay() {
+            const count = this.getCartCount();
+            document.querySelectorAll('#cartCount').forEach(el => { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none'; });
+        }
+    }
+    window.cartManager = new CartManager();
+
+    const mobileMenu = document.getElementById('mobileMenu'), mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    const openMenu = () => { mobileMenu.classList.remove('translate-x-full'); mobileMenuOverlay.classList.remove('hidden'); };
+    const closeMenu = () => { mobileMenu.classList.add('translate-x-full'); mobileMenuOverlay.classList.add('hidden'); };
+    document.getElementById('mobileMenuToggle').addEventListener('click', openMenu);
+    document.getElementById('closeMobileMenu').addEventListener('click', closeMenu);
+    mobileMenuOverlay.addEventListener('click', closeMenu);
+
+    setLanguage(currentLang);
+});
+</script>
+
+</body>
+</html>
