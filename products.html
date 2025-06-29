@@ -1,1 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Nebulla Fragrance</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FDFBF9; color: #4B4B4B; }
+        h1, h2, h3, h4, .font-display { font-family: 'Cormorant Garamond', serif; }
+        html[dir="rtl"] body, html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] h4, html[dir="rtl"] .font-display, html[dir="rtl"] button, html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] a, html[dir="rtl"] select { font-family: 'Cairo', sans-serif; }
+        #mobileMenu, #filtersPanel { transition: transform 0.3s ease-in-out; }
+        input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: #ddd; border-radius: 5px; outline: none; opacity: 0.7; transition: opacity .2s; }
+        input[type=range]:hover { opacity: 1; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: #881337; cursor: pointer; border-radius: 50%; }
+        input[type=range]::-moz-range-thumb { width: 18px; height: 18px; background: #881337; cursor: pointer; border-radius: 50%; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="loadingOverlay" class="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-[9999]">
+        <div class="w-16 h-16 border-4 border-t-4 border-gray-200 border-t-rose-400 rounded-full animate-spin"></div>
+    </div>
+    <div id="notification-container" class="fixed top-5 right-5 z-[9998] space-y-3"></div>
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="text-3xl font-bold font-display text-rose-900">Nebulla Fragrance</a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_home">Home</a>
+                    <a href="products.html" class="text-rose-500 font-semibold border-b-2 border-rose-500 pb-1" data-lang-key="nav_products">Products</a>
+                    <a href="about.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_about">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_contact">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">AR</button>
+                    <a href="cart.html" class="relative text-gray-600 hover:text-rose-500">
+                        <i class="fas fa-shopping-bag fa-lg"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                    <button id="mobileMenuToggle" class="lg:hidden text-gray-600 hover:text-rose-500"><i class="fas fa-bars fa-lg"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobileMenu" class="fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-[60] transform translate-x-full lg:hidden">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="font-display text-2xl text-rose-900" data-lang-key="menu_title">Menu</h2>
+                <button id="closeMobileMenu" class="text-gray-600 hover:text-rose-500"><i class="fas fa-times fa-lg"></i></button>
+            </div>
+            <nav class="flex flex-col space-y-6">
+                <a href="index.html" class="text-lg text-gray-700" data-lang-key="nav_home_mobile">Home</a>
+                <a href="products.html" class="text-lg text-rose-500 font-semibold" data-lang-key="nav_products_mobile">Products</a>
+                <a href="about.html" class="text-lg text-gray-700" data-lang-key="nav_about_mobile">About</a>
+                <a href="contact.html" class="text-lg text-gray-700" data-lang-key="nav_contact_mobile">Contact</a>
+            </nav>
+        </div>
+    </div>
+    <div id="mobileMenuOverlay" class="fixed inset-0 bg-black/40 z-55 hidden lg:hidden"></div>
+
+    <main>
+        <section class="bg-rose-50 py-12 md:py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-6xl font-display text-rose-900 mb-2" data-lang-key="products_title">Our Collection</h1>
+                <p class="text-lg text-gray-600" data-lang-key="products_subtitle">Find a scent that defines you.</p>
+            </div>
+        </section>
+
+        <section class="py-12 md:py-16">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <aside id="filtersPanel" class="w-full lg:w-72 bg-white p-6 rounded-lg shadow-lg lg:sticky top-28 transform -translate-x-full lg:transform-none fixed h-full lg:h-auto z-[70] lg:z-auto overflow-y-auto lg:overflow-y-visible">
+                        <div class="flex justify-between items-center mb-6 pb-4 border-b">
+                            <h3 class="text-2xl font-display text-gray-800" data-lang-key="filters_title">Filters</h3>
+                            <button id="clearFilters" class="text-sm text-rose-600 hover:underline" data-lang-key="filters_clear">Clear All</button>
+                            <button id="closeFiltersPanel" class="lg:hidden text-gray-600 hover:text-rose-500"><i class="fas fa-times fa-lg"></i></button>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-3" data-lang-key="filter_brand">Brand</h4>
+                            <div id="brandFilters" class="space-y-2"></div>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-gray-700 mb-3" data-lang-key="filter_scent">Scent Family</h4>
+                            <div id="scentFilters" class="space-y-2"></div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700 mb-3" data-lang-key="filter_price">Price Range</h4>
+                            <div class="space-y-4">
+                                <input type="range" id="priceRange" min="0" max="500" value="500">
+                                <div class="text-center font-medium text-rose-800">
+                                    <span data-lang-key="price_up_to">Up to</span> <span id="priceValue">$500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                    <div id="filtersOverlay" class="fixed inset-0 bg-black/40 z-65 hidden lg:hidden"></div>
+
+                    <div class="flex-1">
+                        <div class="flex flex-col md:flex-row justify-between items-center mb-6 p-4 bg-white rounded-lg shadow-md">
+                            <div class="flex items-center gap-4 mb-4 md:mb-0">
+                                <button id="filtersToggle" class="lg:hidden bg-gray-100 px-4 py-2 rounded-md text-gray-700 hover:bg-gray-200">
+                                    <i class="fas fa-filter mr-2"></i><span data-lang-key="filters_button">Filters</span>
+                                </button>
+                                <span id="productsCount" class="text-gray-600"></span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <select id="sortSelect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-rose-500 focus:border-rose-500 block w-full p-2.5">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8"></div>
+                        <div id="noProducts" class="hidden text-center py-16">
+                            <i class="fas fa-search fa-3x text-gray-300 mb-4"></i>
+                            <h3 class="text-2xl font-display text-gray-700" data-lang-key="no_products_title">No Products Found</h3>
+                            <p class="text-gray-500" data-lang-key="no_products_desc">Try adjusting your filters to find what you're looking for.</p>
+                        </div>
+                        <div id="pagination" class="flex justify-center items-center gap-2 mt-12"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300">
+        <div class="container mx-auto px-4 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="md:col-span-2 lg:col-span-1">
+                    <h3 class="font-display text-2xl text-white mb-4">Nebulla Fragrance</h3>
+                    <p class="text-gray-400 mb-4" data-lang-key="footer_desc">Crafting memories through the art of perfumery.</p>
+                </div>
+                <div><h4 class="font-semibold text-lg text-white mb-4" data-lang-key="footer_shop">Shop</h4><ul class="space-y-2"><li><a href="products.html" class="hover:text-white" data-lang-key="footer_all_products">All Products</a></li></ul></div>
+                <div><h4 class="font-semibold text-lg text-white mb-4" data-lang-key="footer_support">Support</h4><ul class="space-y-2"><li><a href="contact.html" class="hover:text-white" data-lang-key="footer_contact_us">Contact Us</a></li></ul></div>
+                <div><h4 class="font-semibold text-lg text-white mb-4" data-lang-key="footer_contact_info">Contact</h4><p>info@nebullafragrance.com</p><p>+1 (555) 123-4567</p></div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-500" data-lang-key="footer_copyright">&copy; 2025 Nebulla Fragrance. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const translations = {
+        en: {
+            nav_home: "Home", nav_products: "Products", nav_about: "About", nav_contact: "Contact", menu_title: "Menu", nav_home_mobile: "Home", nav_products_mobile: "Products", nav_about_mobile: "About", nav_contact_mobile: "Contact",
+            products_title: "Our Collection", products_subtitle: "Find a scent that defines you.",
+            filters_title: "Filters", filters_clear: "Clear All", filters_button: "Filters", filter_brand: "Brand", filter_scent: "Scent Family", filter_price: "Price Range", price_up_to: "Up to",
+            sort_relevance: "Sort by relevance", sort_name_asc: "Name (A-Z)", sort_name_desc: "Name (Z-A)", sort_price_asc: "Price (Low to High)", sort_price_desc: "Price (High to Low)",
+            no_products_title: "No Products Found", no_products_desc: "Try adjusting your filters to find what you're looking for.",
+            product_count_single: "product", product_count_plural: "products",
+            add_to_cart: "Add to Cart",
+            footer_desc: "Crafting memories through the art of perfumery.", footer_shop: "Shop", footer_all_products: "All Products", footer_support: "Support", footer_contact_us: "Contact Us", footer_contact_info: "Contact", footer_copyright: "&copy; 2025 Nebulla Fragrance. All Rights Reserved."
+        },
+        ar: {
+            nav_home: "الرئيسية", nav_products: "المنتجات", nav_about: "من نحن", nav_contact: "اتصل بنا", menu_title: "القائمة", nav_home_mobile: "الرئيسية", nav_products_mobile: "المنتجات", nav_about_mobile: "من نحن", nav_contact_mobile: "اتصل بنا",
+            products_title: "مجموعتنا", products_subtitle: "ابحث عن عطر يعبر عنك.",
+            filters_title: "الفلاتر", filters_clear: "مسح الكل", filters_button: "الفلاتر", filter_brand: "العلامة التجارية", filter_scent: "عائلة العطر", filter_price: "نطاق السعر", price_up_to: "حتى",
+            sort_relevance: "الترتيب حسب الصلة", sort_name_asc: "الاسم (أ-ي)", sort_name_desc: "الاسم (ي-أ)", sort_price_asc: "السعر (من الأقل للأعلى)", sort_price_desc: "السعر (من الأعلى للأقل)",
+            no_products_title: "لم يتم العثور على منتجات", no_products_desc: "حاول تعديل الفلاتر للعثور على ما تبحث عنه.",
+            product_count_single: "منتج", product_count_plural: "منتجات",
+            add_to_cart: "أضف إلى السلة",
+            footer_desc: "صياغة الذكريات من خلال فن العطور.", footer_shop: "تسوق", footer_all_products: "كل المنتجات", footer_support: "الدعم", footer_contact_us: "اتصل بنا", footer_contact_info: "معلومات الاتصال", footer_copyright: "&copy; 2025 نيبولا للعطور. جميع الحقوق محفوظة."
+        }
+    };
+    const langSwitcher = document.getElementById('lang-switcher');
+    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('nebulla-lang', lang);
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        langSwitcher.textContent = lang === 'en' ? 'AR' : 'EN';
+        
+        document.querySelectorAll('[data-lang-key]').forEach(el => {
+            const key = el.dataset.langKey;
+            if (translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+        updateSortOptions();
+        applyFiltersAndRender();
+    }
+    langSwitcher.addEventListener('click', () => setLanguage(currentLang === 'en' ? 'ar' : 'en'));
+
+    let allProducts = [];
+    let filteredProducts = [];
+    let currentPage = 1;
+    const productsPerPage = 9;
+    let currentSort = 'default';
+    let currentView = 'grid';
+    let currentFilters = { brands: new Set(), scents: new Set(), priceMax: 500, search: '' };
+
+    const mockProducts = [
+        { id: 'p1', name: 'Ocean Breeze', brand: 'Aqua Di Mare', price: 85.00, scent_family: 'Fresh', description: 'A refreshing scent of the sea.', image_url: 'https://placehold.co/600x800/a2d2ff/ffffff?text=Ocean\\nBreeze' },
+        { id: 'p2', name: 'Midnight Jasmine', brand: 'Fleur Noir', price: 120.00, scent_family: 'Floral', description: 'An elegant floral fragrance.', image_url: 'https://placehold.co/600x800/3d405b/ffffff?text=Midnight\\nJasmine' },
+        { id: 'p3', name: 'Sandalwood & Cedar', brand: 'The Woodsman', price: 95.00, scent_family: 'Woody', description: 'A warm and earthy scent.', image_url: 'https://placehold.co/600x800/81b29a/ffffff?text=Sandalwood\\n%26+Cedar' },
+        { id: 'p4', name: 'Spiced Amber', brand: 'Orientale', price: 110.00, scent_family: 'Spicy', description: 'An exotic fragrance.', image_url: 'https://placehold.co/600x800/e07a5f/ffffff?text=Spiced\\nAmber' },
+        { id: 'p5', name: 'Citrus Grove', brand: 'Zest & Co', price: 75.00, scent_family: 'Fresh', description: 'A vibrant citrus perfume.', image_url: 'https://placehold.co/600x800/f4d35e/ffffff?text=Citrus\\nGrove' },
+        { id: 'p6', name: 'Rose Petal', brand: 'Fleur Noir', price: 150.00, scent_family: 'Floral', description: 'A classic rose scent.', image_url: 'https://placehold.co/600x800/f7a8b8/ffffff?text=Rose\\nPetal' },
+        { id: 'p7', name: 'Oud Mystique', brand: 'Orientale', price: 250.00, scent_family: 'Woody', description: 'A deep oud fragrance.', image_url: 'https://placehold.co/600x800/585123/ffffff?text=Oud\\nMystique' },
+        { id: 'p8', name: 'Vanilla Bean', brand: 'Sweet Scents', price: 90.00, scent_family: 'Spicy', description: 'A sweet vanilla fragrance.', image_url: 'https://placehold.co/600x800/f5e6ca/ffffff?text=Vanilla\\nBean' },
+    ];
+
+    const formatCurrency = (amount, currency = 'USD') => new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
+    const setLocalStorage = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { console.error(e); } };
+    const getLocalStorage = (key, defaultValue = null) => { try { const i = localStorage.getItem(key); return i ? JSON.parse(i) : defaultValue; } catch (e) { return defaultValue; } };
+    function showNotification(message, type = 'info', duration = 4000) {
+        const container = document.getElementById('notification-container');
+        if (!container) return;
+        const colors = { success: 'bg-green-500', error: 'bg-red-500', info: 'bg-blue-500' };
+        const notification = document.createElement('div');
+        notification.className = `transform transition-all duration-300 ease-in-out translate-x-full opacity-0 ${colors[type]} text-white font-semibold py-3 px-5 rounded-lg shadow-xl`;
+        notification.textContent = message;
+        container.appendChild(notification);
+        setTimeout(() => { notification.classList.remove('translate-x-full', 'opacity-0'); notification.classList.add('translate-x-0', 'opacity-100'); }, 100);
+        setTimeout(() => { notification.classList.add('opacity-0'); setTimeout(() => container.removeChild(notification), 300); }, duration);
+    }
+
+    class CartManager {
+        constructor() { this.cartKey = 'nebulla_fragrance_cart_v2'; this.cart = getLocalStorage(this.cartKey, []); this.updateCartDisplay(); }
+        saveCart() { setLocalStorage(this.cartKey, this.cart); this.updateCartDisplay(); }
+        addToCart(productData, quantity = 1) {
+            const existingItem = this.cart.find(item => item.id === productData.id);
+            if (existingItem) { existingItem.quantity += quantity; } else { this.cart.push({ ...productData, quantity }); }
+            this.saveCart();
+            showNotification(`${productData.name} added to cart!`, 'success');
+        }
+        getCartCount() { return this.cart.reduce((total, item) => total + item.quantity, 0); }
+        updateCartDisplay() {
+            const count = this.getCartCount();
+            document.querySelectorAll('#cartCount').forEach(el => { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none'; });
+        }
+    }
+    window.cartManager = new CartManager();
+
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        const noProductsEl = document.getElementById('noProducts');
+        grid.innerHTML = '';
+        const startIndex = (currentPage - 1) * productsPerPage;
+        const pageProducts = filteredProducts.slice(startIndex, startIndex + productsPerPage);
+
+        if (pageProducts.length === 0) {
+            noProductsEl.classList.remove('hidden');
+            grid.classList.add('hidden');
+        } else {
+            noProductsEl.classList.add('hidden');
+            grid.classList.remove('hidden');
+            grid.innerHTML = pageProducts.map(createProductCardHTML).join('');
+        }
+        
+        const countText = filteredProducts.length === 1 ? translations[currentLang].product_count_single : translations[currentLang].product_count_plural;
+        document.getElementById('productsCount').textContent = `${filteredProducts.length} ${countText}`;
+        renderPagination();
+        attachAddToCartListeners();
+    }
+
+    function createProductCardHTML(product) {
+        const addToCartText = translations[currentLang].add_to_cart;
+        return `
+            <div class="group bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
+                <a href="product-detail.html?id=${product.id}" class="block overflow-hidden"><img src="${product.image_url}" alt="${product.name}" class="w-full h-80 object-cover transform group-hover:scale-105 transition-transform duration-500"></a>
+                <div class="p-5 flex flex-col flex-grow">
+                    <p class="text-sm text-gray-500 mb-1">${product.brand}</p>
+                    <h3 class="text-xl font-display font-semibold text-gray-800 mb-2 flex-grow">${product.name}</h3>
+                    <div class="flex justify-between items-center mt-4">
+                        <p class="text-lg font-semibold text-rose-800">${formatCurrency(product.price)}</p>
+                        <button class="add-to-cart-btn bg-gray-800 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-rose-800" data-product-id="${product.id}">${addToCartText}</button>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    function renderPagination() {
+        const container = document.getElementById('pagination');
+        container.innerHTML = '';
+        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+        if (totalPages <= 1) return;
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            btn.className = `w-10 h-10 rounded-md transition-colors ${i === currentPage ? 'bg-rose-800 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`;
+            btn.onclick = () => { currentPage = i; renderProducts(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+            container.appendChild(btn);
+        }
+    }
+
+    function populateFilterUI() {
+        const brands = [...new Set(allProducts.map(p => p.brand))].sort();
+        const scents = [...new Set(allProducts.map(p => p.scent_family))].sort();
+        const createCheckbox = (value, group) => `<label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" value="${value}" data-group="${group}" class="h-4 w-4 rounded border-gray-300 text-rose-600 focus:ring-rose-500"><span class="text-gray-700">${value}</span></label>`;
+        document.getElementById('brandFilters').innerHTML = brands.map(b => createCheckbox(b, 'brands')).join('');
+        document.getElementById('scentFilters').innerHTML = scents.map(s => createCheckbox(s, 'scents')).join('');
+    }
+
+    function updateSortOptions() {
+        const select = document.getElementById('sortSelect');
+        select.innerHTML = `
+            <option value="default">${translations[currentLang].sort_relevance}</option>
+            <option value="name-asc">${translations[currentLang].sort_name_asc}</option>
+            <option value="name-desc">${translations[currentLang].sort_name_desc}</option>
+            <option value="price-asc">${translations[currentLang].sort_price_asc}</option>
+            <option value="price-desc">${translations[currentLang].sort_price_desc}</option>
+        `;
+        select.value = currentSort;
+    }
+
+    function applyFiltersAndRender() {
+        filteredProducts = allProducts.filter(p => {
+            const brandMatch = currentFilters.brands.size === 0 || currentFilters.brands.has(p.brand);
+            const scentMatch = currentFilters.scents.size === 0 || currentFilters.scents.has(p.scent_family);
+            const priceMatch = p.price <= currentFilters.priceMax;
+            return brandMatch && scentMatch && priceMatch;
+        });
+        applySorting();
+        currentPage = 1;
+        renderProducts();
+    }
+
+    function applySorting() {
+        const sortFn = {
+            'name-asc': (a, b) => a.name.localeCompare(b.name), 'name-desc': (a, b) => b.name.localeCompare(a.name),
+            'price-asc': (a, b) => a.price - b.price, 'price-desc': (a, b) => b.price - a.price,
+            'default': () => 0
+        }[currentSort];
+        filteredProducts.sort(sortFn);
+    }
+    
+    function attachAllEventListeners() {
+        const mobileMenu = document.getElementById('mobileMenu'), mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const openMenu = () => { mobileMenu.classList.remove('translate-x-full'); mobileMenuOverlay.classList.remove('hidden'); };
+        const closeMenu = () => { mobileMenu.classList.add('translate-x-full'); mobileMenuOverlay.classList.add('hidden'); };
+        document.getElementById('mobileMenuToggle').addEventListener('click', openMenu);
+        document.getElementById('closeMobileMenu').addEventListener('click', closeMenu);
+        mobileMenuOverlay.addEventListener('click', closeMenu);
+
+        const filtersPanel = document.getElementById('filtersPanel'), filtersOverlay = document.getElementById('filtersOverlay');
+        const openFilters = () => { filtersPanel.classList.remove('-translate-x-full'); filtersOverlay.classList.remove('hidden'); };
+        const closeFilters = () => { filtersPanel.classList.add('-translate-x-full'); filtersOverlay.classList.add('hidden'); };
+        document.getElementById('filtersToggle').addEventListener('click', openFilters);
+        document.getElementById('closeFiltersPanel').addEventListener('click', closeFilters);
+        filtersOverlay.addEventListener('click', closeFilters);
+
+        document.getElementById('sortSelect').addEventListener('change', (e) => { currentSort = e.target.value; applySorting(); renderProducts(); });
+        document.getElementById('filtersPanel').addEventListener('change', (e) => {
+            if (e.target.type === 'checkbox') {
+                const group = e.target.dataset.group;
+                if (e.target.checked) { currentFilters[group].add(e.target.value); } 
+                else { currentFilters[group].delete(e.target.value); }
+            }
+            if (e.target.id === 'priceRange') {
+                currentFilters.priceMax = parseInt(e.target.value);
+                document.getElementById('priceValue').textContent = formatCurrency(currentFilters.priceMax);
+            }
+            applyFiltersAndRender();
+        });
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            currentFilters = { brands: new Set(), scents: new Set(), priceMax: 500, search: '' };
+            document.querySelectorAll('#filtersPanel input[type="checkbox"]').forEach(cb => cb.checked = false);
+            const priceRange = document.getElementById('priceRange');
+            priceRange.value = 500;
+            document.getElementById('priceValue').textContent = formatCurrency(500);
+            applyFiltersAndRender();
+        });
+    }
+
+    function attachAddToCartListeners() {
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const productId = e.currentTarget.dataset.productId;
+                const productData = allProducts.find(p => p.id === productId);
+                if (productData) { window.cartManager.addToCart(productData); }
+            });
+        });
+    }
+
+    function init() {
+        document.getElementById('loadingOverlay').classList.remove('hidden');
+        allProducts = mockProducts;
+        const params = new URLSearchParams(window.location.search);
+        const category = params.get('category');
+        if (category) { currentFilters.scents.add(category); }
+        
+        populateFilterUI();
+        if(category) {
+            const categoryCheckbox = document.querySelector(`#scentFilters input[value="${category}"]`);
+            if(categoryCheckbox) categoryCheckbox.checked = true;
+        }
+
+        attachAllEventListeners();
+        setLanguage(currentLang); // This will also trigger the first render
+        document.getElementById('loadingOverlay').classList.add('hidden');
+    }
+
+    init();
+});
+</script>
+
+</body>
+</html>
