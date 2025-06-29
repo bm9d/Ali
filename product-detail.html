@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="scroll-smooth">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +43,7 @@
                     <a href="contact.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_contact">Contact</a>
                 </nav>
                 <div class="flex items-center space-x-4">
-                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">AR</button>
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">EN</button>
                     <a href="cart.html" class="relative text-gray-600 hover:text-rose-500">
                         <i class="fas fa-shopping-bag fa-lg"></i>
                         <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     const langSwitcher = document.getElementById('lang-switcher');
-    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+    let currentLang = localStorage.getItem('nebulla-lang') || 'ar';
 
     function setLanguage(lang) {
         currentLang = lang;
@@ -162,6 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'p2', name: 'Midnight Jasmine', brand: 'Fleur Noir', price: 120.00, scent_family: 'Floral', description: 'An elegant and romantic floral fragrance, capturing the essence of jasmine in full bloom.', stock: 8, image_url: 'https://placehold.co/800x1000/3d405b/ffffff?text=Midnight\\nJasmine' },
         { id: 'p3', name: 'Sandalwood & Cedar', brand: 'The Woodsman', price: 95.00, scent_family: 'Woody', description: 'A warm, earthy, and comforting scent with deep notes of sandalwood and cedarwood.', stock: 20, image_url: 'https://placehold.co/800x1000/81b29a/ffffff?text=Sandalwood\\n%26+Cedar' },
         { id: 'p4', name: 'Spiced Amber', brand: 'Orientale', price: 110.00, scent_family: 'Spicy', description: 'An exotic and mysterious fragrance featuring warm amber and a blend of oriental spices.', stock: 0, image_url: 'https://placehold.co/800x1000/e07a5f/ffffff?text=Spiced\\nAmber' },
+        { id: 'p5', name: 'Golden Dune', brand: 'Desert Gems', price: 155.00, scent_family: 'Spicy', description: 'A rich and warm scent inspired by desert sands.', stock: 10, image_url: 'https://placehold.co/800x1000/f2c94c/ffffff?text=Golden\\nDune' },
+        { id: 'p6', name: 'Emerald Forest', brand: 'Verdant', price: 130.00, scent_family: 'Woody', description: 'A deep, green fragrance reminiscent of a lush forest.', stock: 12, image_url: 'https://placehold.co/800x1000/27ae60/ffffff?text=Emerald\\nForest' },
     ];
 
     const formatCurrency = (amount, currency = 'USD') => new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
@@ -196,8 +198,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.cartManager = new CartManager();
 
-    async function fetchProductById(productId) { return new Promise(resolve => setTimeout(() => resolve(mockAllProducts.find(p => p.id === productId)), 300)); }
-    async function fetchRelatedProducts(scentFamily, currentId) { return new Promise(resolve => setTimeout(() => resolve(mockAllProducts.filter(p => p.scent_family === scentFamily && p.id !== currentId).slice(0, 4)), 300)); }
+    async function fetchProductById(productId) {
+        return new Promise(resolve => {
+            const siteProducts = getLocalStorage('nebulla_site_products', mockAllProducts);
+            const product = siteProducts.find(p => p.id === productId);
+            // Add full details if missing from homepage data
+            const fullProduct = mockAllProducts.find(p => p.id === productId);
+            setTimeout(() => resolve({ ...product, ...fullProduct }), 300);
+        });
+    }
+    async function fetchRelatedProducts(scentFamily, currentId) { 
+        return new Promise(resolve => {
+            const siteProducts = getLocalStorage('nebulla_site_products', mockAllProducts);
+            const related = siteProducts.filter(p => p.scent_family === scentFamily && p.id !== currentId).slice(0, 4);
+            setTimeout(() => resolve(related), 300);
+        });
+    }
 
     function renderProductDetail(product) {
         const grid = document.getElementById('productDetailGrid');
