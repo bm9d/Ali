@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="scroll-smooth">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,7 +68,7 @@
                     <a href="contact.html" class="text-rose-500 font-semibold border-b-2 border-rose-500 pb-1" data-lang-key="nav_contact">Contact</a>
                 </nav>
                 <div class="flex items-center space-x-4">
-                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full transition-colors">AR</button>
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full transition-colors">EN</button>
                     <a href="cart.html" class="relative text-gray-600 hover:text-rose-500 transition-colors">
                         <i class="fas fa-shopping-bag fa-lg"></i>
                         <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LANGUAGE SWITCHER LOGIC ---
     const langSwitcher = document.getElementById('lang-switcher');
-    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+    let currentLang = localStorage.getItem('nebulla-lang') || 'ar';
 
     function setLanguage(lang) {
         currentLang = lang;
