@@ -1,1 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Nebulla Fragrance</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7fafc; color: #4B4B4B; }
+        h1, h2, h3, h4, .font-display { font-family: 'Cormorant Garamond', serif; }
+        html[dir="rtl"] body, html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] h4, html[dir="rtl"] .font-display, html[dir="rtl"] button, html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] a { font-family: 'Cairo', sans-serif; }
+        .progress-step:not(:last-child) .progress-step-label::after { content: ''; position: absolute; top: 50%; left: 100%; width: 100%; height: 2px; background-color: #e5e7eb; transform: translateY(-50%); z-index: -1; }
+        .progress-step.completed .progress-step-label::after { background-color: #9f1239; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="notification-container" class="fixed top-5 right-5 z-[9998] space-y-3"></div>
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="text-3xl font-bold font-display text-rose-900">Nebulla Fragrance</a>
+                <div class="flex items-center space-x-4">
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">AR</button>
+                    <a href="cart.html" class="relative text-gray-600 hover:text-rose-500">
+                        <i class="fas fa-shopping-bag fa-lg"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="checkout-section" class="py-8 md:py-12">
+            <div class="container mx-auto px-4">
+                <div id="checkout-content"></div>
+            </div>
+        </section>
+    </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const translations = {
+        en: {
+            progress_shipping: "Shipping", progress_payment: "Payment", progress_confirmation: "Confirmation",
+            contact_info: "Contact Information", email_label: "Email Address *",
+            shipping_address: "Shipping Address", fname_label: "First Name *", lname_label: "Last Name *", address_label: "Address *", city_label: "City *", zip_label: "ZIP Code *",
+            to_payment_btn: "Continue to Payment",
+            payment_info: "Payment Information", card_label: "Card Number *", expiry_label: "Expiry Date *", cvv_label: "CVV *",
+            back_shipping_btn: "Back to Shipping", place_order_btn: "Place Order",
+            order_summary: "Order Summary", subtotal: "Subtotal", shipping: "Shipping", tax: "Tax", total: "Total", free_shipping: "Free", secure_checkout: "Secure checkout powered by Stripe.",
+            empty_cart_title: "Your Cart is Empty", empty_cart_desc: "You must have items in your cart to check out.", start_shopping_btn: "Start Shopping",
+            success_title: "Thank You!", success_desc: "Your order has been placed successfully.", success_order_id: "Your Order ID is:", continue_shopping_btn: "Continue Shopping",
+            validation_required: "This field is required.", validation_email: "Please enter a valid email address.", validation_zip: "Please enter a valid ZIP code.", validation_card: "Please enter a valid 16-digit card number.", validation_expiry: "Please use MM/YY format.", validation_cvv: "Please enter a valid CVV."
+        },
+        ar: {
+            progress_shipping: "الشحن", progress_payment: "الدفع", progress_confirmation: "التأكيد",
+            contact_info: "معلومات الاتصال", email_label: "البريد الإلكتروني *",
+            shipping_address: "عنوان الشحن", fname_label: "الاسم الأول *", lname_label: "اسم العائلة *", address_label: "العنوان *", city_label: "المدينة *", zip_label: "الرمز البريدي *",
+            to_payment_btn: "متابعة إلى الدفع",
+            payment_info: "معلومات الدفع", card_label: "رقم البطاقة *", expiry_label: "تاريخ انتهاء الصلاحية *", cvv_label: "CVV *",
+            back_shipping_btn: "العودة إلى الشحن", place_order_btn: "إتمام الطلب",
+            order_summary: "ملخص الطلب", subtotal: "المجموع الفرعي", shipping: "الشحن", tax: "الضريبة", total: "المجموع الكلي", free_shipping: "مجاني", secure_checkout: "دفع آمن بواسطة Stripe.",
+            empty_cart_title: "سلتك فارغة", empty_cart_desc: "يجب أن يكون لديك منتجات في سلتك لإتمام عملية الشراء.", start_shopping_btn: "ابدأ التسوق",
+            success_title: "شكرا لك!", success_desc: "تم تقديم طلبك بنجاح.", success_order_id: "رقم طلبك هو:", continue_shopping_btn: "متابعة التسوق",
+            validation_required: "هذا الحقل مطلوب.", validation_email: "الرجاء إدخال بريد إلكتروني صالح.", validation_zip: "الرجاء إدخال رمز بريدي صالح.", validation_card: "الرجاء إدخال رقم بطاقة صالح مكون من 16 رقمًا.", validation_expiry: "الرجاء استخدام تنسيق MM/YY.", validation_cvv: "الرجاء إدخال CVV صالح."
+        }
+    };
+    let currentStep = 1;
+    const langSwitcher = document.getElementById('lang-switcher');
+    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('nebulla-lang', lang);
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        langSwitcher.textContent = lang === 'en' ? 'AR' : 'EN';
+        init();
+    }
+    langSwitcher.addEventListener('click', () => setLanguage(currentLang === 'en' ? 'ar' : 'en'));
+
+    const formatCurrency = (amount, currency = 'USD') => new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
+    const setLocalStorage = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { console.error(e); } };
+    const getLocalStorage = (key, defaultValue = null) => { try { const i = localStorage.getItem(key); return i ? JSON.parse(i) : defaultValue; } catch (e) { return defaultValue; } };
+
+    class CartManager {
+        constructor() { this.cartKey = 'nebulla_fragrance_cart_v2'; this.cart = getLocalStorage(this.cartKey, []); }
+        clearCart() { this.cart = []; setLocalStorage(this.cartKey, []); this.updateCartDisplay(); }
+        getCart() { return this.cart; }
+        getCartCount() { return this.cart.reduce((total, item) => total + item.quantity, 0); }
+        updateCartDisplay() {
+            const count = this.getCartCount();
+            document.querySelectorAll('#cartCount').forEach(el => { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none'; });
+        }
+    }
+    window.cartManager = new CartManager();
+
+    const validationRules = {
+        email: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, messageKey: "validation_email" },
+        firstName: { required: true, messageKey: "validation_required" }, lastName: { required: true, messageKey: "validation_required" },
+        address: { required: true, messageKey: "validation_required" }, city: { required: true, messageKey: "validation_required" },
+        zipCode: { required: true, pattern: /^\d{5}(-\d{4})?$/, messageKey: "validation_zip" },
+        cardNumber: { required: true, pattern: /^\d{16}$/, messageKey: "validation_card" },
+        expiry: { required: true, pattern: /^(0[1-9]|1[0-2])\/\d{2}$/, messageKey: "validation_expiry" },
+        cvv: { required: true, pattern: /^\d{3,4}$/, messageKey: "validation_cvv" },
+    };
+
+    function validateField(input) {
+        const rule = validationRules[input.id];
+        const errorEl = document.getElementById(`${input.id}Error`);
+        let isValid = true; let errorMessage = '';
+        if (rule.required && !input.value.trim()) {
+            isValid = false; errorMessage = translations[currentLang][rule.messageKey] || translations[currentLang].validation_required;
+        } else if (rule.pattern && !rule.pattern.test(input.value)) {
+            isValid = false; errorMessage = translations[currentLang][rule.messageKey];
+        }
+        errorEl.textContent = errorMessage;
+        input.classList.toggle('border-red-500', !isValid);
+        input.classList.toggle('border-gray-300', isValid);
+        return isValid;
+    }
+
+    function renderCheckoutPage() {
+        const t = translations[currentLang];
+        document.getElementById('checkout-content').innerHTML = `
+            <div class="max-w-2xl mx-auto mb-12">
+                <div id="progress-steps" class="flex justify-between items-center">
+                    <div class="progress-step flex-1 text-center relative" data-step="1"><div class="progress-step-number mx-auto w-10 h-10 flex items-center justify-center rounded-full text-lg font-semibold z-10">1</div><p class="progress-step-label mt-2 text-sm md:text-base">${t.progress_shipping}</p></div>
+                    <div class="progress-step flex-1 text-center relative" data-step="2"><div class="progress-step-number mx-auto w-10 h-10 flex items-center justify-center rounded-full text-lg font-semibold z-10">2</div><p class="progress-step-label mt-2 text-sm md:text-base">${t.progress_payment}</p></div>
+                    <div class="progress-step flex-1 text-center relative" data-step="3"><div class="progress-step-number mx-auto w-10 h-10 flex items-center justify-center rounded-full text-lg font-semibold z-10">3</div><p class="progress-step-label mt-2 text-sm md:text-base">${t.progress_confirmation}</p></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+                <div class="lg:col-span-3 bg-white p-6 md:p-8 rounded-lg shadow-md"><form id="checkoutForm" novalidate></form></div>
+                <aside class="lg:col-span-2"><div id="orderSummary" class="bg-white p-6 rounded-lg shadow-md sticky top-28"></div></aside>
+            </div>`;
+    }
+
+    function renderOrderSummary() {
+        const items = window.cartManager.getCart();
+        const summaryContainer = document.getElementById('orderSummary');
+        const t = translations[currentLang];
+        const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const shipping = subtotal > 50 ? 0 : 9.99;
+        const tax = subtotal * 0.08;
+        const total = subtotal + shipping + tax;
+        const itemsHTML = items.map(item => `<div class="flex gap-4 py-3 border-b border-gray-200"><div class="w-16 h-16 rounded-md overflow-hidden relative"><img src="${item.image_url || 'https://placehold.co/200x200/f0f0f0/cccccc?text=Image'}" alt="${item.name}" class="w-full h-full object-cover"><span class="absolute -top-2 -right-2 bg-rose-700 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">${item.quantity}</span></div><div class="flex-grow"><p class="font-semibold text-gray-800">${item.name}</p><p class="text-sm text-gray-500">${item.brand}</p></div><p class="font-medium">${formatCurrency(item.price * item.quantity)}</p></div>`).join('');
+        summaryContainer.innerHTML = `<h3 class="text-2xl font-display text-gray-800 mb-4">${t.order_summary}</h3><div class="space-y-3 max-h-64 overflow-y-auto pr-2">${itemsHTML}</div><div class="space-y-2 mt-4 pt-4 border-t border-gray-200"><div class="flex justify-between text-gray-600"><span>${t.subtotal}</span><span>${formatCurrency(subtotal)}</span></div><div class="flex justify-between text-gray-600"><span>${t.shipping}</span><span>${shipping === 0 ? t.free_shipping : formatCurrency(shipping)}</span></div><div class="flex justify-between text-gray-600"><span>${t.tax}</span><span>${formatCurrency(tax)}</span></div></div><hr class="my-3"><div class="flex justify-between font-bold text-xl text-gray-900"><span>${t.total}</span><span>${formatCurrency(total)}</span></div><div class="flex items-center gap-3 mt-6 bg-green-50 p-3 rounded-md text-green-800"><i class="fas fa-shield-alt fa-fw"></i><span class="text-sm">${t.secure_checkout}</span></div>`;
+    }
+
+    function updateProgressUI() {
+        document.querySelectorAll('.progress-step').forEach(step => {
+            const stepNum = parseInt(step.dataset.step);
+            const numberEl = step.querySelector('.progress-step-number');
+            const labelEl = step.querySelector('.progress-step-label');
+            if (stepNum < currentStep) { numberEl.innerHTML = `<i class="fas fa-check"></i>`; numberEl.classList.add('bg-rose-800', 'text-white'); numberEl.classList.remove('bg-gray-200', 'text-gray-500'); labelEl.classList.add('text-rose-800', 'font-semibold'); step.classList.add('completed'); } 
+            else if (stepNum === currentStep) { numberEl.innerHTML = stepNum; numberEl.classList.add('bg-rose-800', 'text-white'); numberEl.classList.remove('bg-gray-200', 'text-gray-500'); labelEl.classList.add('text-rose-800', 'font-semibold'); step.classList.remove('completed'); } 
+            else { numberEl.innerHTML = stepNum; numberEl.classList.remove('bg-rose-800', 'text-white'); numberEl.classList.add('bg-gray-200', 'text-gray-500'); labelEl.classList.remove('text-rose-800', 'font-semibold'); step.classList.remove('completed'); }
+        });
+    }
+
+    function navigateToStep(step) {
+        currentStep = step;
+        const form = document.getElementById('checkoutForm');
+        const t = translations[currentLang];
+        const shippingFormHTML = `<div id="step-1-content"><h2 class="font-display text-2xl text-gray-800 mb-6">${t.contact_info}</h2><div class="mb-4"><label for="email" class="block text-sm font-medium text-gray-700 mb-1">${t.email_label}</label><input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-md" required><p class="text-red-500 text-sm mt-1 h-4" id="emailError"></p></div><h2 class="font-display text-2xl text-gray-800 my-6">${t.shipping_address}</h2><div class="grid sm:grid-cols-2 gap-4"><div><label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">${t.fname_label}</label><input type="text" id="firstName" class="w-full px-4 py-2 border border-gray-300 rounded-md" required><p class="text-red-500 text-sm mt-1 h-4" id="firstNameError"></p></div><div><label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">${t.lname_label}</label><input type="text" id="lastName" class="w-full px-4 py-2 border border-gray-300 rounded-md" required><p class="text-red-500 text-sm mt-1 h-4" id="lastNameError"></p></div></div><div class="mt-4"><label for="address" class="block text-sm font-medium text-gray-700 mb-1">${t.address_label}</label><input type="text" id="address" class="w-full px-4 py-2 border border-gray-300 rounded-md" required><p class="text-red-500 text-sm mt-1 h-4" id="addressError"></p></div><div class="grid sm:grid-cols-2 gap-4 mt-4"><div><label for="city" class="block text-sm font-medium text-gray-700 mb-1">${t.city_label}</label><input type="text" id="city" class="w-full px-4 py-2 border border-gray-300 rounded-md" required><p class="text-red-500 text-sm mt-1 h-4" id="cityError"></p></div><div><label for="zipCode" class="block text-sm font-medium text-gray-700 mb-1">${t.zip_label}</label><input type="text" id="zipCode" class="w-full px-4 py-2 border border-gray-300 rounded-md" required><p class="text-red-500 text-sm mt-1 h-4" id="zipCodeError"></p></div></div><div class="mt-8 flex justify-end"><button type="button" id="toPaymentBtn" class="bg-rose-800 text-white font-semibold px-8 py-3 rounded-full shadow-lg">${t.to_payment_btn}</button></div></div>`;
+        const paymentFormHTML = `<div id="step-2-content"><h2 class="font-display text-2xl text-gray-800 mb-6">${t.payment_info}</h2><div class="mb-4"><label for="cardNumber" class="block text-sm font-medium text-gray-700 mb-1">${t.card_label}</label><input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" class="w-full px-4 py-2 border border-gray-300 rounded-md" required><p class="text-red-500 text-sm mt-1 h-4" id="cardNumberError"></p></div><div class="grid grid-cols-2 gap-4"><div><label for="expiry" class="block text-sm font-medium text-gray-700 mb-1">${t.expiry_label}</label><input type="text" id="expiry" placeholder="MM/YY" class="w-full px-4 py-2 border border-gray-300 rounded-md" required><p class="text-red-500 text-sm mt-1 h-4" id="expiryError"></p></div><div><label for="cvv" class="block text-sm font-medium text-gray-700 mb-1">${t.cvv_label}</label><input type="text" id="cvv" placeholder="123" class="w-full px-4 py-2 border border-gray-300 rounded-md" required><p class="text-red-500 text-sm mt-1 h-4" id="cvvError"></p></div></div><div class="mt-8 flex justify-between items-center"><button type="button" id="backToShippingBtn" class="text-rose-700 hover:underline">${t.back_shipping_btn}</button><button type="submit" class="bg-rose-800 text-white font-semibold px-8 py-3 rounded-full shadow-lg">${t.place_order_btn}</button></div></div>`;
+        
+        if (step === 1) { form.innerHTML = shippingFormHTML; document.getElementById('toPaymentBtn').addEventListener('click', handleToPayment); } 
+        else if (step === 2) { form.innerHTML = paymentFormHTML; document.getElementById('backToShippingBtn').addEventListener('click', () => navigateToStep(1)); form.addEventListener('submit', handleCheckoutSubmit); }
+        updateProgressUI();
+    }
+    
+    function handleToPayment() {
+        const fields = ['email', 'firstName', 'lastName', 'address', 'city', 'zipCode'];
+        if (fields.every(id => validateField(document.getElementById(id)))) { navigateToStep(2); }
+    }
+
+    function handleCheckoutSubmit(e) {
+        e.preventDefault();
+        const fields = ['cardNumber', 'expiry', 'cvv'];
+        if (fields.every(id => validateField(document.getElementById(id)))) {
+            const orderId = 'NF-' + Date.now();
+            const t = translations[currentLang];
+            document.getElementById('checkout-content').innerHTML = `<div class="max-w-2xl mx-auto text-center py-12"><div class="text-7xl text-green-500 mb-4"><i class="fas fa-check-circle"></i></div><h1 class="text-4xl md:text-5xl font-display text-gray-800 mb-2">${t.success_title}</h1><p class="text-gray-600 text-lg mb-4">${t.success_desc}</p><p class="text-gray-500 mb-6">${t.success_order_id} <span class="font-semibold text-gray-700">${orderId}</span></p><a href="index.html" class="bg-rose-800 text-white font-semibold px-8 py-3 rounded-full shadow-lg">${t.continue_shopping_btn}</a></div>`;
+            currentStep = 3;
+            updateProgressUI();
+            window.cartManager.clearCart();
+        }
+    }
+
+    function init() {
+        const t = translations[currentLang];
+        if (window.cartManager.getCartCount() === 0) {
+            document.getElementById('checkout-section').innerHTML = `<div class="container mx-auto px-4 text-center py-16"><div class="text-6xl text-rose-200 mb-4"><i class="fas fa-shopping-bag"></i></div><h2 class="text-3xl font-display text-gray-800 mb-2">${t.empty_cart_title}</h2><p class="text-gray-500 mb-6">${t.empty_cart_desc}</p><a href="products.html" class="bg-rose-800 text-white font-semibold px-8 py-3 rounded-full shadow-lg">${t.start_shopping_btn}</a></div>`;
+            return;
+        }
+        renderCheckoutPage();
+        navigateToStep(1);
+        renderOrderSummary();
+        window.cartManager.updateCartDisplay();
+    }
+
+    init();
+});
+</script>
+
+</body>
+</html>
