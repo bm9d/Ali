@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="scroll-smooth">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,14 +38,14 @@
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <a href="index.html" class="text-3xl font-bold font-display text-rose-900">Nebulla Fragrance</a>
-                <nav class="hidden lg:flex items-center">
-                    <a href="index.html" class="text-gray-700 hover:text-rose-500 transition-colors px-4" data-lang-key="nav_home">Home</a>
-                    <a href="products.html" class="text-rose-500 font-semibold border-b-2 border-rose-500 pb-1 px-4" data-lang-key="nav_products">Products</a>
-                    <a href="about.html" class="text-gray-700 hover:text-rose-500 transition-colors px-4" data-lang-key="nav_about">About</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-rose-500 transition-colors px-4" data-lang-key="nav_contact">Contact</a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-rose-500 transition-colors" data-lang-key="nav_home">Home</a>
+                    <a href="products.html" class="text-rose-500 font-semibold border-b-2 border-rose-500 pb-1" data-lang-key="nav_products">Products</a>
+                    <a href="about.html" class="text-gray-700 hover:text-rose-500 transition-colors" data-lang-key="nav_about">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-rose-500 transition-colors" data-lang-key="nav_contact">Contact</a>
                 </nav>
                 <div class="flex items-center space-x-4">
-                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">AR</button>
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">EN</button>
                     <a href="cart.html" class="relative text-gray-600 hover:text-rose-500">
                         <i class="fas fa-shopping-bag fa-lg"></i>
                         <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     const langSwitcher = document.getElementById('lang-switcher');
-    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+    let currentLang = localStorage.getItem('nebulla-lang') || 'ar';
 
     function setLanguage(lang) {
         currentLang = lang;
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function populateFilterUI() {
         const brands = [...new Set(allProducts.map(p => p.brand))].sort();
         const scents = [...new Set(allProducts.map(p => p.scent_family))].sort();
-        const createCheckbox = (value, group) => `<label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" value="${value}" data-group="${group}" class="h-4 w-4 rounded border-gray-300 text-rose-600 focus:ring-rose-500"><span class="text-gray-700">${value}</span></label>`;
+        const createCheckbox = (value, group) => `<label class="flex items-center space-x-3 rtl:space-x-reverse cursor-pointer"><input type="checkbox" value="${value}" data-group="${group}" class="h-4 w-4 rounded border-gray-300 text-rose-600 focus:ring-rose-500"><span class="text-gray-700">${value}</span></label>`;
         document.getElementById('brandFilters').innerHTML = brands.map(b => createCheckbox(b, 'brands')).join('');
         document.getElementById('scentFilters').innerHTML = scents.map(s => createCheckbox(s, 'scents')).join('');
     }
@@ -324,7 +324,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const brandMatch = currentFilters.brands.size === 0 || currentFilters.brands.has(p.brand);
             const scentMatch = currentFilters.scents.size === 0 || currentFilters.scents.has(p.scent_family);
             const priceMatch = p.price <= currentFilters.priceMax;
-            return brandMatch && scentMatch && priceMatch;
+            const searchMatch = currentFilters.search === '' || p.name.toLowerCase().includes(currentFilters.search) || p.brand.toLowerCase().includes(currentFilters.search);
+            return brandMatch && scentMatch && priceMatch && searchMatch;
         });
         applySorting();
         currentPage = 1;
@@ -391,10 +392,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function init() {
         document.getElementById('loadingOverlay').classList.remove('hidden');
-        allProducts = mockProducts;
+        allProducts = getLocalStorage('nebulla_site_products', mockProducts);
+        
         const params = new URLSearchParams(window.location.search);
         const category = params.get('category');
+        const searchQuery = params.get('search');
+
         if (category) { currentFilters.scents.add(category); }
+        if (searchQuery) { currentFilters.search = searchQuery.toLowerCase(); }
         
         populateFilterUI();
         if(category) {
