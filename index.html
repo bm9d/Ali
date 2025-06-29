@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="scroll-smooth">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,14 +38,14 @@
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <a href="index.html" class="text-3xl font-bold font-display text-rose-900">Nebulla Fragrance</a>
-                <nav class="hidden lg:flex items-center">
-                    <a href="index.html" class="text-rose-500 font-semibold border-b-2 border-rose-500 pb-1 px-4" data-lang-key="nav_home">Home</a>
-                    <a href="products.html" class="text-gray-700 hover:text-rose-500 transition-colors px-4" data-lang-key="nav_products">Products</a>
-                    <a href="about.html" class="text-gray-700 hover:text-rose-500 transition-colors px-4" data-lang-key="nav_about">About</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-rose-500 transition-colors px-4" data-lang-key="nav_contact">Contact</a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-rose-500 font-semibold border-b-2 border-rose-500 pb-1" data-lang-key="nav_home">Home</a>
+                    <a href="products.html" class="text-gray-700 hover:text-rose-500 transition-colors" data-lang-key="nav_products">Products</a>
+                    <a href="about.html" class="text-gray-700 hover:text-rose-500 transition-colors" data-lang-key="nav_about">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-rose-500 transition-colors" data-lang-key="nav_contact">Contact</a>
                 </nav>
                 <div class="flex items-center space-x-4">
-                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full transition-colors">AR</button>
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full transition-colors">EN</button>
                     <button id="searchToggle" class="text-gray-600 hover:text-rose-500 transition-colors"><i class="fas fa-search fa-lg"></i></button>
                     <a href="cart.html" class="relative text-gray-600 hover:text-rose-500 transition-colors">
                         <i class="fas fa-shopping-bag fa-lg"></i>
@@ -91,6 +91,14 @@
                 <a href="products.html" class="bg-rose-800 text-white font-semibold px-10 py-4 rounded-full shadow-lg hover:bg-rose-900 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300" data-lang-key="hero_button">
                     Shop The Collection
                 </a>
+            </div>
+        </section>
+
+        <!-- New Arrivals Section -->
+        <section class="py-16 md:py-24 bg-rose-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl md:text-5xl font-display text-center text-gray-800 mb-12" data-lang-key="new_arrivals_title">New Arrivals</h2>
+                <div id="newArrivalsProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
             </div>
         </section>
 
@@ -177,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             nav_home: "Home", nav_products: "Products", nav_about: "About", nav_contact: "Contact", menu_title: "Menu", nav_home_mobile: "Home", nav_products_mobile: "Products", nav_about_mobile: "About", nav_contact_mobile: "Contact",
             search_placeholder: "Search for your signature scent...",
             hero_title: "Elegance in Every Drop", hero_subtitle: "Explore our curated collection of luxury perfumes and discover your signature scent today.", hero_button: "Shop The Collection",
+            new_arrivals_title: "New Arrivals",
             featured_title: "Featured Perfumes",
             categories_title: "Explore by Scent", category_floral: "Floral", category_woody: "Woody", category_fresh: "Fresh", category_spicy: "Spicy", shop_now: "Shop Now",
             newsletter_title: "Join The Nebulla List", newsletter_desc: "Be the first to know about new arrivals, exclusive offers, and scent stories.", newsletter_placeholder: "Your email address", newsletter_button: "Subscribe",
@@ -187,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
             nav_home: "الرئيسية", nav_products: "المنتجات", nav_about: "من نحن", nav_contact: "اتصل بنا", menu_title: "القائمة", nav_home_mobile: "الرئيسية", nav_products_mobile: "المنتجات", nav_about_mobile: "من نحن", nav_contact_mobile: "اتصل بنا",
             search_placeholder: "ابحث عن عطرك المميز...",
             hero_title: "الأناقة في كل قطرة", hero_subtitle: "اكتشف مجموعتنا المنسقة من العطور الفاخرة وابحث عن عطرك المميز اليوم.", hero_button: "تسوق المجموعة",
+            new_arrivals_title: "وصل حديثاً",
             featured_title: "عطور مميزة",
             categories_title: "اكتشف حسب الرائحة", category_floral: "زهري", category_woody: "خشبي", category_fresh: "منعش", category_spicy: "تابلي", shop_now: "تسوق الآن",
             newsletter_title: "انضم إلى قائمة نيبولا", newsletter_desc: "كن أول من يعرف عن الوافدين الجدد والعروض الحصرية وقصص العطور.", newsletter_placeholder: "بريدك الإلكتروني", newsletter_button: "اشترك",
@@ -195,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     const langSwitcher = document.getElementById('lang-switcher');
-    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+    let currentLang = localStorage.getItem('nebulla-lang') || 'ar';
 
     function setLanguage(lang) {
         currentLang = lang;
@@ -216,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.placeholder = translations[lang][key];
             }
         });
-        renderFeaturedProducts(mockProducts); // Re-render products to update button text
+        renderAllProducts();
     }
 
     langSwitcher.addEventListener('click', () => {
@@ -225,11 +235,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- MOCK DATA & API ---
-    const mockProducts = [
-        { id: 'p1', name: 'Ocean Breeze', brand: 'Aqua Di Mare', price: 85.00, image_url: 'https://placehold.co/600x800/a2d2ff/ffffff?text=Ocean\\nBreeze' },
-        { id: 'p2', name: 'Midnight Jasmine', brand: 'Fleur Noir', price: 120.00, image_url: 'https://placehold.co/600x800/3d405b/ffffff?text=Midnight\\nJasmine' },
-        { id: 'p3', name: 'Sandalwood & Cedar', brand: 'The Woodsman', price: 95.00, image_url: 'https://placehold.co/600x800/81b29a/ffffff?text=Sandalwood\\n%26+Cedar' },
-        { id: 'p4', name: 'Spiced Amber', brand: 'Orientale', price: 110.00, image_url: 'https://placehold.co/600x800/e07a5f/ffffff?text=Spiced\\nAmber' },
+    const initialProducts = [
+        // These will become "new arrivals"
+        { id: 'p5', name: 'Golden Dune', brand: 'Desert Gems', price: 155.00, image_url: 'https://placehold.co/600x800/f2c94c/ffffff?text=Golden\\nDune', isNew: true, arrivalTimestamp: Date.now(), duration: 60000 }, // 1 minute
+        { id: 'p6', name: 'Emerald Forest', brand: 'Verdant', price: 130.00, image_url: 'https://placehold.co/600x800/27ae60/ffffff?text=Emerald\\nForest', isNew: true, arrivalTimestamp: Date.now(), duration: 120000 }, // 2 minutes
+        // These are regular featured products
+        { id: 'p1', name: 'Ocean Breeze', brand: 'Aqua Di Mare', price: 85.00, image_url: 'https://placehold.co/600x800/a2d2ff/ffffff?text=Ocean\\nBreeze', isNew: false },
+        { id: 'p2', name: 'Midnight Jasmine', brand: 'Fleur Noir', price: 120.00, image_url: 'https://placehold.co/600x800/3d405b/ffffff?text=Midnight\\nJasmine', isNew: false },
+        { id: 'p3', name: 'Sandalwood & Cedar', brand: 'The Woodsman', price: 95.00, image_url: 'https://placehold.co/600x800/81b29a/ffffff?text=Sandalwood\\n%26+Cedar', isNew: false },
+        { id: 'p4', name: 'Spiced Amber', brand: 'Orientale', price: 110.00, image_url: 'https://placehold.co/600x800/e07a5f/ffffff?text=Spiced\\nAmber', isNew: false },
     ];
 
     // --- UTILS ---
@@ -268,6 +282,85 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.cartManager = new CartManager();
 
+    // --- PRODUCT MANAGEMENT ---
+    let siteProducts = [];
+
+    function initializeProducts() {
+        let storedProducts = getLocalStorage('nebulla_site_products');
+        if (!storedProducts || storedProducts.length === 0) {
+            siteProducts = initialProducts;
+            setLocalStorage('nebulla_site_products', siteProducts);
+        } else {
+            siteProducts = storedProducts;
+        }
+        renderAllProducts();
+        checkNewArrivals();
+    }
+
+    function checkNewArrivals() {
+        let productsChanged = false;
+        const now = Date.now();
+
+        siteProducts.forEach(product => {
+            if (product.isNew && now > product.arrivalTimestamp + product.duration) {
+                product.isNew = false;
+                delete product.arrivalTimestamp;
+                delete product.duration;
+                productsChanged = true;
+                showNotification(`${product.name} has moved to featured products!`, 'info');
+            }
+        });
+
+        if (productsChanged) {
+            setLocalStorage('nebulla_site_products', siteProducts);
+            renderAllProducts();
+        }
+    }
+
+    function renderAllProducts() {
+        const newArrivals = siteProducts.filter(p => p.isNew);
+        const featured = siteProducts.filter(p => !p.isNew);
+        
+        renderProductSection('#newArrivalsProducts', newArrivals);
+        renderProductSection('#featuredProducts', featured);
+    }
+
+    function renderProductSection(containerSelector, products) {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+        
+        if (products.length === 0) {
+            container.innerHTML = `<p class="col-span-full text-center text-gray-500">${containerSelector === '#newArrivalsProducts' ? 'No new arrivals at the moment.' : 'No featured products.'}</p>`;
+            if (containerSelector === '#newArrivalsProducts') {
+                container.parentElement.parentElement.classList.add('hidden');
+            }
+            return;
+        }
+        
+        if (containerSelector === '#newArrivalsProducts') {
+            container.parentElement.parentElement.classList.remove('hidden');
+        }
+
+        container.innerHTML = products.map(product => `
+            <div class="group bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
+                <a href="product-detail.html?id=${product.id}" class="block overflow-hidden">
+                    <img src="${product.image_url}" alt="${product.name}" class="w-full h-80 object-cover transform group-hover:scale-105 transition-transform duration-500">
+                </a>
+                <div class="p-5 flex flex-col flex-grow">
+                    <p class="text-sm text-gray-500 mb-1">${product.brand}</p>
+                    <h3 class="text-xl font-display font-semibold text-gray-800 mb-2 flex-grow">${product.name}</h3>
+                    <div class="flex justify-between items-center mt-4">
+                        <p class="text-lg font-semibold text-rose-800">${formatCurrency(product.price)}</p>
+                        <button class="add-to-cart-btn bg-gray-800 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-rose-800 transition-colors" data-product-id="${product.id}" data-lang-key="add_to_cart">
+                            ${translations[currentLang].add_to_cart}
+                        </button>
+                    </div>
+                </div>
+            </div>`).join('');
+        
+        attachAddToCartListeners();
+    }
+
     // --- UI INITIALIZATION & EVENT LISTENERS ---
     let lastScrollTop = 0;
     window.addEventListener("scroll", () => {
@@ -296,32 +389,12 @@ document.addEventListener('DOMContentLoaded', () => {
     closeMobileMenu.addEventListener('click', closeMenu);
     mobileMenuOverlay.addEventListener('click', closeMenu);
 
-    function renderFeaturedProducts(products) {
-        const container = document.getElementById('featuredProducts');
-        if (!container) return;
-        container.innerHTML = products.map(product => `
-            <div class="group bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-                <a href="product-detail.html?id=${product.id}" class="block overflow-hidden">
-                    <img src="${product.image_url}" alt="${product.name}" class="w-full h-80 object-cover transform group-hover:scale-105 transition-transform duration-500">
-                </a>
-                <div class="p-5 flex flex-col flex-grow">
-                    <p class="text-sm text-gray-500 mb-1">${product.brand}</p>
-                    <h3 class="text-xl font-display font-semibold text-gray-800 mb-2 flex-grow">${product.name}</h3>
-                    <div class="flex justify-between items-center mt-4">
-                        <p class="text-lg font-semibold text-rose-800">${formatCurrency(product.price)}</p>
-                        <button class="add-to-cart-btn bg-gray-800 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-rose-800 transition-colors" data-product-id="${product.id}" data-lang-key="add_to_cart">
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-            </div>`).join('');
-        
+    function attachAddToCartListeners() {
         document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-            button.textContent = translations[currentLang].add_to_cart;
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 const productId = e.currentTarget.dataset.productId;
-                const productData = products.find(p => p.id === productId);
+                const productData = siteProducts.find(p => p.id === productId);
                 if (productData) { window.cartManager.addToCart(productData); }
             });
         });
@@ -340,6 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Page
     setLanguage(currentLang);
+    initializeProducts();
+    setInterval(checkNewArrivals, 5000); // Check every 5 seconds
 });
 </script>
 
