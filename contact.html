@@ -1,1 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Nebulla Fragrance</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Default Font (English) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc; /* gray-100 */
+            color: #4B4B4B; /* Soft black for text */
+        }
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* RTL Font (Arabic) */
+        html[dir="rtl"] body,
+        html[dir="rtl"] h1,
+        html[dir="rtl"] h2,
+        html[dir="rtl"] h3,
+        html[dir="rtl"] h4,
+        html[dir="rtl"] .font-display,
+        html[dir="rtl"] button,
+        html[dir="rtl"] input,
+        html[dir="rtl"] textarea,
+        html[dir="rtl"] a {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* Custom transition for menus and FAQ */
+        #mobileMenu, .faq-answer {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* RTL Specific Styles */
+        html[dir="rtl"] .faq-question span {
+            text-align: right;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="fixed top-5 right-5 z-[9998] space-y-3"></div>
+
+    <!-- Header -->
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="text-3xl font-bold font-display text-rose-900">Nebulla Fragrance</a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-rose-500 transition-colors" data-lang-key="nav_home">Home</a>
+                    <a href="products.html" class="text-gray-700 hover:text-rose-500 transition-colors" data-lang-key="nav_products">Products</a>
+                    <a href="about.html" class="text-gray-700 hover:text-rose-500 transition-colors" data-lang-key="nav_about">About</a>
+                    <a href="contact.html" class="text-rose-500 font-semibold border-b-2 border-rose-500 pb-1" data-lang-key="nav_contact">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full transition-colors">AR</button>
+                    <a href="cart.html" class="relative text-gray-600 hover:text-rose-500 transition-colors">
+                        <i class="fas fa-shopping-bag fa-lg"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                    <button id="mobileMenuToggle" class="lg:hidden text-gray-600 hover:text-rose-500"><i class="fas fa-bars fa-lg"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-[60] transform translate-x-full lg:hidden">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="font-display text-2xl text-rose-900" data-lang-key="menu_title">Menu</h2>
+                <button id="closeMobileMenu" class="text-gray-600 hover:text-rose-500"><i class="fas fa-times fa-lg"></i></button>
+            </div>
+            <nav class="flex flex-col space-y-6">
+                <a href="index.html" class="text-lg text-gray-700 hover:text-rose-500" data-lang-key="nav_home_mobile">Home</a>
+                <a href="products.html" class="text-lg text-gray-700 hover:text-rose-500" data-lang-key="nav_products_mobile">Products</a>
+                <a href="about.html" class="text-lg text-gray-700 hover:text-rose-500" data-lang-key="nav_about_mobile">About</a>
+                <a href="contact.html" class="text-lg text-rose-500 font-semibold" data-lang-key="nav_contact_mobile">Contact</a>
+            </nav>
+        </div>
+    </div>
+    <div id="mobileMenuOverlay" class="fixed inset-0 bg-black/40 z-55 hidden lg:hidden"></div>
+
+    <main>
+        <!-- Page Header -->
+        <section class="bg-rose-50 py-12 md:py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-6xl font-display text-rose-900 mb-2" data-lang-key="contact_title">Contact Us</h1>
+                <p class="text-lg text-gray-600" data-lang-key="contact_subtitle">We're here to help. Reach out to us anytime.</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4">
+                <div class="grid lg:grid-cols-3 gap-12">
+                    <!-- Contact Info -->
+                    <div class="lg:col-span-1 space-y-8">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-rose-100 text-rose-800 rounded-full flex items-center justify-center"><i class="fas fa-map-marker-alt fa-lg"></i></div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800" data-lang-key="info_boutique_title">Our Boutique</h3>
+                                <p class="text-gray-600" data-lang-key="info_boutique_address">123 Fragrance Avenue<br>New York, NY 10001</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-rose-100 text-rose-800 rounded-full flex items-center justify-center"><i class="fas fa-envelope fa-lg"></i></div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800" data-lang-key="info_email_title">Email Us</h3>
+                                <p class="text-gray-600" data-lang-key="info_email_desc">Our team will get back to you within 24 hours.</p>
+                                <a href="mailto:info@nebullafragrance.com" class="text-rose-700 hover:underline">info@nebullafragrance.com</a>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-rose-100 text-rose-800 rounded-full flex items-center justify-center"><i class="fas fa-phone fa-lg"></i></div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800" data-lang-key="info_call_title">Call Us</h3>
+                                <p class="text-gray-600" data-lang-key="info_call_desc">Mon - Fri, 9am - 5pm EST</p>
+                                <a href="tel:+15551234567" class="text-rose-700 hover:underline">+1 (555) 123-4567</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Contact Form -->
+                    <div class="lg:col-span-2 bg-white p-8 rounded-lg shadow-lg">
+                        <h2 class="font-display text-3xl text-gray-800 mb-2" data-lang-key="form_title">Send Us a Message</h2>
+                        <p class="text-gray-600 mb-6" data-lang-key="form_desc">Whether you have a question about a product or need a scent recommendation, we're ready to answer all your questions.</p>
+                        <form id="contactForm" novalidate>
+                            <div class="grid sm:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1" data-lang-key="form_label_name">Full Name *</label>
+                                    <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-300" required>
+                                    <p class="text-red-500 text-sm mt-1 h-4" id="nameError"></p>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1" data-lang-key="form_label_email">Email Address *</label>
+                                    <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-300" required>
+                                    <p class="text-red-500 text-sm mt-1 h-4" id="emailError"></p>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-1" data-lang-key="form_label_subject">Subject *</label>
+                                <input type="text" id="subject" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-300" required>
+                                <p class="text-red-500 text-sm mt-1 h-4" id="subjectError"></p>
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1" data-lang-key="form_label_message">Message *</label>
+                                <textarea id="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-300" required></textarea>
+                                <p class="text-red-500 text-sm mt-1 h-4" id="messageError"></p>
+                            </div>
+                            <div>
+                                <button type="submit" class="bg-rose-800 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-rose-900 transition-colors" data-lang-key="form_button">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-16 md:py-24 bg-rose-50">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <h2 class="text-4xl md:text-5xl font-display text-center text-gray-800 mb-12" data-lang-key="faq_title">Frequently Asked Questions</h2>
+                <div id="faqContainer" class="space-y-4">
+                    <!-- FAQs will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300">
+        <div class="container mx-auto px-4 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="md:col-span-2 lg:col-span-1">
+                    <h3 class="font-display text-2xl text-white mb-4">Nebulla Fragrance</h3>
+                    <p class="text-gray-400 mb-4" data-lang-key="footer_desc">Crafting memories through the art of perfumery.</p>
+                </div>
+                <div><h4 class="font-semibold text-lg text-white mb-4" data-lang-key="footer_shop">Shop</h4><ul class="space-y-2"><li><a href="products.html" class="hover:text-white transition-colors" data-lang-key="footer_all_products">All Products</a></li><li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer_new_arrivals">New Arrivals</a></li></ul></div>
+                <div><h4 class="font-semibold text-lg text-white mb-4" data-lang-key="footer_support">Support</h4><ul class="space-y-2"><li><a href="contact.html" class="hover:text-white transition-colors" data-lang-key="footer_contact_us">Contact Us</a></li><li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer_shipping">Shipping & Returns</a></li></ul></div>
+                <div><h4 class="font-semibold text-lg text-white mb-4" data-lang-key="footer_contact_info">Contact</h4><p class="mb-2">info@nebullafragrance.com</p><p>+1 (555) 123-4567</p></div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-500" data-lang-key="footer_copyright">&copy; 2025 Nebulla Fragrance. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- TRANSLATIONS ---
+    const translations = {
+        en: {
+            // Navigation
+            nav_home: "Home",
+            nav_products: "Products",
+            nav_about: "About",
+            nav_contact: "Contact",
+            menu_title: "Menu",
+            nav_home_mobile: "Home",
+            nav_products_mobile: "Products",
+            nav_about_mobile: "About",
+            nav_contact_mobile: "Contact",
+            // Page Header
+            contact_title: "Contact Us",
+            contact_subtitle: "We're here to help. Reach out to us anytime.",
+            // Contact Info
+            info_boutique_title: "Our Boutique",
+            info_boutique_address: "123 Fragrance Avenue<br>New York, NY 10001",
+            info_email_title: "Email Us",
+            info_email_desc: "Our team will get back to you within 24 hours.",
+            info_call_title: "Call Us",
+            info_call_desc: "Mon - Fri, 9am - 5pm EST",
+            // Form
+            form_title: "Send Us a Message",
+            form_desc: "Whether you have a question about a product or need a scent recommendation, we're ready to answer all your questions.",
+            form_label_name: "Full Name *",
+            form_label_email: "Email Address *",
+            form_label_subject: "Subject *",
+            form_label_message: "Message *",
+            form_button: "Send Message",
+            // FAQ
+            faq_title: "Frequently Asked Questions",
+            // Footer
+            footer_desc: "Crafting memories through the art of perfumery.",
+            footer_shop: "Shop",
+            footer_all_products: "All Products",
+            footer_new_arrivals: "New Arrivals",
+            footer_support: "Support",
+            footer_contact_us: "Contact Us",
+            footer_shipping: "Shipping & Returns",
+            footer_contact_info: "Contact",
+            footer_copyright: "&copy; 2025 Nebulla Fragrance. All Rights Reserved."
+        },
+        ar: {
+            // Navigation
+            nav_home: "الرئيسية",
+            nav_products: "المنتجات",
+            nav_about: "من نحن",
+            nav_contact: "اتصل بنا",
+            menu_title: "القائمة",
+            nav_home_mobile: "الرئيسية",
+            nav_products_mobile: "المنتجات",
+            nav_about_mobile: "من نحن",
+            nav_contact_mobile: "اتصل بنا",
+            // Page Header
+            contact_title: "اتصل بنا",
+            contact_subtitle: "نحن هنا للمساعدة. تواصل معنا في أي وقت.",
+            // Contact Info
+            info_boutique_title: "متجرنا",
+            info_boutique_address: "123 شارع العطور<br>نيويورك، نيويورك 10001",
+            info_email_title: "راسلنا عبر البريد الإلكتروني",
+            info_email_desc: "سيقوم فريقنا بالرد عليك في غضون 24 ساعة.",
+            info_call_title: "اتصل بنا",
+            info_call_desc: "الاثنين - الجمعة، 9 صباحًا - 5 مساءً بتوقيت شرق الولايات المتحدة",
+            // Form
+            form_title: "أرسل لنا رسالة",
+            form_desc: "سواء كان لديك سؤال حول منتج ما أو كنت بحاجة إلى توصية بعطر، فنحن على استعداد للإجابة على جميع أسئلتك.",
+            form_label_name: "الاسم الكامل *",
+            form_label_email: "البريد الإلكتروني *",
+            form_label_subject: "الموضوع *",
+            form_label_message: "الرسالة *",
+            form_button: "إرسال الرسالة",
+            // FAQ
+            faq_title: "الأسئلة الشائعة",
+            // Footer
+            footer_desc: "صياغة الذكريات من خلال فن صناعة العطور.",
+            footer_shop: "تسوق",
+            footer_all_products: "كل المنتجات",
+            footer_new_arrivals: "وصل حديثاً",
+            footer_support: "الدعم",
+            footer_contact_us: "اتصل بنا",
+            footer_shipping: "الشحن والإرجاع",
+            footer_contact_info: "معلومات الاتصال",
+            footer_copyright: "&copy; 2025 نيبولا للعطور. جميع الحقوق محفوظة."
+        }
+    };
+    
+    const faqContent = {
+        en: [
+            { q: "How do I choose the right fragrance for me?", a: "Choosing a fragrance is a personal journey. We recommend considering the scent families you're drawn to (floral, woody, fresh, spicy), the occasion you'll be wearing it for, and the season. Our sample sets are a great way to explore different options before committing to a full bottle." },
+            { q: "What is the difference between Eau de Parfum and Eau de Toilette?", a: "The main difference is the concentration of perfume oil. Eau de Parfum (EDP) has a higher concentration (typically 15-20%) and lasts longer, while Eau de Toilette (EDT) has a lower concentration (5-15%) and is lighter." },
+            { q: "What is your return policy?", a: "We offer a 30-day return policy for any unopened and unused products. If you are not satisfied with your purchase, please contact our customer service team to initiate a return." },
+            { q: "Do you offer international shipping?", a: "Yes, we ship to most countries worldwide. Shipping costs and delivery times vary by location and will be calculated at checkout. Please note that customers are responsible for any customs fees or import duties." }
+        ],
+        ar: [
+            { q: "كيف أختار العطر المناسب لي؟", a: "اختيار العطر رحلة شخصية. نوصي بالنظر في عائلات الروائح التي تنجذب إليها (زهرية، خشبية، منعشة، حارة)، والمناسبة التي سترتديها من أجلها، والموسم. مجموعات العينات لدينا هي طريقة رائعة لاستكشاف خيارات مختلفة قبل الالتزام بزجاجة كاملة." },
+            { q: "ما الفرق بين ماء العطر (Eau de Parfum) وماء التواليت (Eau de Toilette)؟", a: "الفرق الرئيسي هو تركيز زيت العطر. يحتوي ماء العطر (EDP) على تركيز أعلى (عادة 15-20٪) ويدوم لفترة أطول، بينما يحتوي ماء التواليت (EDT) على تركيز أقل (5-15٪) وهو أخف." },
+            { q: "ما هي سياسة الإرجاع الخاصة بكم؟", a: "نحن نقدم سياسة إرجاع لمدة 30 يومًا لأي منتجات غير مفتوحة وغير مستخدمة. إذا لم تكن راضيًا عن مشترياتك، يرجى الاتصال بفريق خدمة العملاء لدينا لبدء عملية الإرجاع." },
+            { q: "هل تقدمون الشحن الدولي؟", a: "نعم، نحن نشحن إلى معظم البلدان في جميع أنحاء العالم. تختلف تكاليف الشحن وأوقات التسليم حسب الموقع وسيتم حسابها عند الدفع. يرجى ملاحظة أن العملاء مسؤولون عن أي رسوم جمركية أو رسوم استيراد." }
+        ]
+    };
+
+    // --- LANGUAGE SWITCHER LOGIC ---
+    const langSwitcher = document.getElementById('lang-switcher');
+    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('nebulla-lang', lang);
+        
+        document.documentElement.setAttribute('lang', lang);
+        document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+        
+        langSwitcher.textContent = lang === 'en' ? 'AR' : 'EN';
+        
+        document.querySelectorAll('[data-lang-key]').forEach(el => {
+            const key = el.dataset.langKey;
+            if (translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+        
+        renderFAQs(lang);
+    }
+
+    langSwitcher.addEventListener('click', () => {
+        const newLang = currentLang === 'en' ? 'ar' : 'en';
+        setLanguage(newLang);
+    });
+
+    // --- UTILS ---
+    function showNotification(message, type = 'info', duration = 4000) {
+        const container = document.getElementById('notification-container');
+        if (!container) return;
+        const colors = { success: 'bg-green-500', error: 'bg-red-500', info: 'bg-blue-500' };
+        const notification = document.createElement('div');
+        notification.className = `transform transition-all duration-300 ease-in-out translate-x-full opacity-0 ${colors[type]} text-white font-semibold py-3 px-5 rounded-lg shadow-xl`;
+        notification.textContent = message;
+        container.appendChild(notification);
+        setTimeout(() => { notification.classList.remove('translate-x-full', 'opacity-0'); notification.classList.add('translate-x-0', 'opacity-100'); }, 100);
+        setTimeout(() => { notification.classList.add('opacity-0'); setTimeout(() => container.removeChild(notification), 300); }, duration);
+    }
+    
+    // --- CART MANAGEMENT ---
+    class CartManager {
+        constructor() {
+            this.cartKey = 'nebulla_fragrance_cart_v2';
+            this.cart = this.loadCart();
+            this.updateCartDisplay();
+        }
+        loadCart() {
+            try {
+                const item = localStorage.getItem(this.cartKey);
+                return item ? JSON.parse(item) : [];
+            } catch (e) { console.error("Failed to read from localStorage", e); return []; }
+        }
+        getCartCount() { return this.cart.reduce((total, item) => total + item.quantity, 0); }
+        updateCartDisplay() {
+            const count = this.getCartCount();
+            document.querySelectorAll('#cartCount').forEach(el => {
+                el.textContent = count;
+                el.style.display = count > 0 ? 'flex' : 'none';
+            });
+        }
+    }
+    window.cartManager = new CartManager();
+
+    // --- MOBILE MENU ---
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    const openMenu = () => { mobileMenu.classList.remove('translate-x-full'); mobileMenuOverlay.classList.remove('hidden'); };
+    const closeMenu = () => { mobileMenu.classList.add('translate-x-full'); mobileMenuOverlay.classList.add('hidden'); };
+    document.getElementById('mobileMenuToggle').addEventListener('click', openMenu);
+    document.getElementById('closeMobileMenu').addEventListener('click', closeMenu);
+    mobileMenuOverlay.addEventListener('click', closeMenu);
+
+    // --- CONTACT FORM VALIDATION ---
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        let isValid = true;
+        const fields = ['name', 'email', 'subject', 'message'];
+        
+        fields.forEach(id => {
+            const input = document.getElementById(id);
+            const errorEl = document.getElementById(id + 'Error');
+            if (!input.value.trim()) {
+                errorEl.textContent = currentLang === 'ar' ? 'هذا الحقل مطلوب.' : 'This field is required.';
+                input.classList.add('border-red-500');
+                isValid = false;
+            } else {
+                errorEl.textContent = '';
+                input.classList.remove('border-red-500');
+            }
+        });
+
+        if (isValid) {
+            const successMsg = currentLang === 'ar' ? 'شكراً لرسالتك! سوف نرد عليك قريبا.' : 'Thank you for your message! We will get back to you shortly.';
+            showNotification(successMsg, 'success');
+            contactForm.reset();
+        } else {
+            const errorMsg = currentLang === 'ar' ? 'يرجى ملء جميع الحقول المطلوبة.' : 'Please fill out all required fields.';
+            showNotification(errorMsg, 'error');
+        }
+    });
+
+    // --- FAQ SECTION ---
+    function renderFAQs(lang) {
+        const faqContainer = document.getElementById('faqContainer');
+        faqContainer.innerHTML = faqContent[lang].map((faq) => `
+            <div class="faq-item bg-white rounded-lg shadow-sm overflow-hidden">
+                <button class="faq-question w-full p-5 text-left font-semibold text-gray-800 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                    <span class="flex-1">${faq.q}</span>
+                    <i class="fas fa-chevron-down transform transition-transform duration-300"></i>
+                </button>
+                <div class="faq-answer grid grid-rows-[0fr] transition-all duration-500 ease-in-out">
+                    <div class="overflow-hidden">
+                        <p class="p-5 pt-0 text-gray-600">${faq.a}</p>
+                    </div>
+                </div>
+            </div>`).join('');
+    }
+    
+    document.getElementById('faqContainer').addEventListener('click', function(e) {
+        const question = e.target.closest('.faq-question');
+        if (question) {
+            const item = question.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const icon = question.querySelector('i');
+
+            item.classList.toggle('active');
+            if (item.classList.contains('active')) {
+                answer.classList.remove('grid-rows-[0fr]');
+                answer.classList.add('grid-rows-[1fr]');
+                icon.classList.add('rotate-180');
+            } else {
+                answer.classList.remove('grid-rows-[1fr]');
+                answer.classList.add('grid-rows-[0fr]');
+                icon.classList.remove('rotate-180');
+            }
+        }
+    });
+
+    // --- INITIALIZE PAGE ---
+    setLanguage(currentLang);
+});
+</script>
+
+</body>
+</html>
