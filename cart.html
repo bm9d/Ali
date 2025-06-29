@@ -1,1 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Nebulla Fragrance</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7fafc; color: #4B4B4B; }
+        h1, h2, h3, h4, .font-display { font-family: 'Cormorant Garamond', serif; }
+        html[dir="rtl"] body, html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] h4, html[dir="rtl"] .font-display, html[dir="rtl"] button, html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] a { font-family: 'Cairo', sans-serif; }
+        #mobileMenu { transition: transform 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="notification-container" class="fixed top-5 right-5 z-[9998] space-y-3"></div>
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="text-3xl font-bold font-display text-rose-900">Nebulla Fragrance</a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_home">Home</a>
+                    <a href="products.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_products">Products</a>
+                    <a href="about.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_about">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-rose-500" data-lang-key="nav_contact">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">AR</button>
+                    <a href="cart.html" class="relative text-rose-500">
+                        <i class="fas fa-shopping-bag fa-lg"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                    <button id="mobileMenuToggle" class="lg:hidden text-gray-600 hover:text-rose-500"><i class="fas fa-bars fa-lg"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobileMenu" class="fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-[60] transform translate-x-full lg:hidden">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="font-display text-2xl text-rose-900" data-lang-key="menu_title">Menu</h2>
+                <button id="closeMobileMenu" class="text-gray-600 hover:text-rose-500"><i class="fas fa-times fa-lg"></i></button>
+            </div>
+            <nav class="flex flex-col space-y-6">
+                <a href="index.html" class="text-lg text-gray-700" data-lang-key="nav_home_mobile">Home</a>
+                <a href="products.html" class="text-lg text-gray-700" data-lang-key="nav_products_mobile">Products</a>
+                <a href="about.html" class="text-lg text-gray-700" data-lang-key="nav_about_mobile">About</a>
+                <a href="contact.html" class="text-lg text-gray-700" data-lang-key="nav_contact_mobile">Contact</a>
+            </nav>
+        </div>
+    </div>
+    <div id="mobileMenuOverlay" class="fixed inset-0 bg-black/40 z-55 hidden lg:hidden"></div>
+
+    <main>
+        <section class="bg-rose-50 py-12 md:py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-6xl font-display text-rose-900 mb-2" data-lang-key="cart_title">Shopping Cart</h1>
+                <p class="text-lg text-gray-600" data-lang-key="cart_subtitle">Review and manage the items in your cart.</p>
+            </div>
+        </section>
+
+        <section class="py-12 md:py-16">
+            <div class="container mx-auto px-4">
+                <div id="cart-container" class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300">
+        <div class="container mx-auto px-4 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="md:col-span-2 lg:col-span-1">
+                    <h3 class="font-display text-2xl text-white mb-4">Nebulla Fragrance</h3>
+                    <p class="text-gray-400 mb-4" data-lang-key="footer_desc">Crafting memories through the art of perfumery.</p>
+                </div>
+                <div><h4 class="font-semibold text-lg text-white mb-4" data-lang-key="footer_shop">Shop</h4><ul class="space-y-2"><li><a href="products.html" class="hover:text-white" data-lang-key="footer_all_products">All Products</a></li></ul></div>
+                <div><h4 class="font-semibold text-lg text-white mb-4" data-lang-key="footer_support">Support</h4><ul class="space-y-2"><li><a href="contact.html" class="hover:text-white" data-lang-key="footer_contact_us">Contact Us</a></li></ul></div>
+                <div><h4 class="font-semibold text-lg text-white mb-4" data-lang-key="footer_contact_info">Contact</h4><p>info@nebullafragrance.com</p><p>+1 (555) 123-4567</p></div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-500" data-lang-key="footer_copyright">&copy; 2025 Nebulla Fragrance. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const translations = {
+        en: {
+            nav_home: "Home", nav_products: "Products", nav_about: "About", nav_contact: "Contact", menu_title: "Menu", nav_home_mobile: "Home", nav_products_mobile: "Products", nav_about_mobile: "About", nav_contact_mobile: "Contact",
+            cart_title: "Shopping Cart", cart_subtitle: "Review and manage the items in your cart.",
+            empty_cart_title: "Your Cart is Empty", empty_cart_desc: "Looks like you haven't added any fragrances yet.", continue_shopping: "Continue Shopping",
+            your_items: "Your Items", order_summary: "Order Summary",
+            subtotal: "Subtotal", shipping: "Shipping", tax: "Est. Tax", total: "Total", free_shipping: "Free",
+            checkout_button: "Proceed to Checkout",
+            footer_desc: "Crafting memories through the art of perfumery.", footer_shop: "Shop", footer_all_products: "All Products", footer_support: "Support", footer_contact_us: "Contact Us", footer_contact_info: "Contact", footer_copyright: "&copy; 2025 Nebulla Fragrance. All Rights Reserved."
+        },
+        ar: {
+            nav_home: "الرئيسية", nav_products: "المنتجات", nav_about: "من نحن", nav_contact: "اتصل بنا", menu_title: "القائمة", nav_home_mobile: "الرئيسية", nav_products_mobile: "المنتجات", nav_about_mobile: "من نحن", nav_contact_mobile: "اتصل بنا",
+            cart_title: "سلة التسوق", cart_subtitle: "راجع وإدارة المنتجات في سلتك.",
+            empty_cart_title: "سلتك فارغة", empty_cart_desc: "يبدو أنك لم تقم بإضافة أي عطور بعد.", continue_shopping: "متابعة التسوق",
+            your_items: "منتجاتك", order_summary: "ملخص الطلب",
+            subtotal: "المجموع الفرعي", shipping: "الشحن", tax: "الضريبة المقدرة", total: "المجموع الكلي", free_shipping: "مجاني",
+            checkout_button: "المتابعة إلى الدفع",
+            footer_desc: "صياغة الذكريات من خلال فن العطور.", footer_shop: "تسوق", footer_all_products: "كل المنتجات", footer_support: "الدعم", footer_contact_us: "اتصل بنا", footer_contact_info: "معلومات الاتصال", footer_copyright: "&copy; 2025 نيبولا للعطور. جميع الحقوق محفوظة."
+        }
+    };
+    const langSwitcher = document.getElementById('lang-switcher');
+    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('nebulla-lang', lang);
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        langSwitcher.textContent = lang === 'en' ? 'AR' : 'EN';
+        document.querySelectorAll('[data-lang-key]').forEach(el => {
+            const key = el.dataset.langKey;
+            if (translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+        loadCartPage(); // Re-render cart for language change
+    }
+    langSwitcher.addEventListener('click', () => setLanguage(currentLang === 'en' ? 'ar' : 'en'));
+
+    const formatCurrency = (amount, currency = 'USD') => new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
+    const setLocalStorage = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { console.error(e); } };
+    const getLocalStorage = (key, defaultValue = null) => { try { const i = localStorage.getItem(key); return i ? JSON.parse(i) : defaultValue; } catch (e) { return defaultValue; } };
+    function showNotification(message, type = 'info', duration = 4000) {
+        const container = document.getElementById('notification-container');
+        if (!container) return;
+        const colors = { success: 'bg-green-500', error: 'bg-red-500', info: 'bg-blue-500' };
+        const notification = document.createElement('div');
+        notification.className = `transform transition-all duration-300 ease-in-out translate-x-full opacity-0 ${colors[type]} text-white font-semibold py-3 px-5 rounded-lg shadow-xl`;
+        notification.textContent = message;
+        container.appendChild(notification);
+        setTimeout(() => { notification.classList.remove('translate-x-full', 'opacity-0'); notification.classList.add('translate-x-0', 'opacity-100'); }, 100);
+        setTimeout(() => { notification.classList.add('opacity-0'); setTimeout(() => container.removeChild(notification), 300); }, duration);
+    }
+
+    class CartManager {
+        constructor() { this.cartKey = 'nebulla_fragrance_cart_v2'; this.cart = getLocalStorage(this.cartKey, []); }
+        saveCart() { setLocalStorage(this.cartKey, this.cart); this.updateCartDisplay(); loadCartPage(); }
+        updateQuantity(productId, newQuantity) {
+            const item = this.cart.find(item => item.id === productId);
+            if (item) { if (newQuantity <= 0) { this.removeFromCart(productId); } else { item.quantity = newQuantity; this.saveCart(); } }
+        }
+        removeFromCart(productId) { this.cart = this.cart.filter(item => item.id !== productId); this.saveCart(); showNotification('Item removed from cart', 'info'); }
+        getCartCount() { return this.cart.reduce((total, item) => total + item.quantity, 0); }
+        updateCartDisplay() {
+            const count = this.getCartCount();
+            document.querySelectorAll('#cartCount').forEach(el => { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none'; });
+        }
+    }
+    window.cartManager = new CartManager();
+
+    function loadCartPage() {
+        const cartItems = window.cartManager.cart;
+        const container = document.getElementById('cart-container');
+        const t = translations[currentLang];
+        container.innerHTML = '';
+
+        if (cartItems.length === 0) {
+            container.innerHTML = `
+                <div class="lg:col-span-3 bg-white p-8 rounded-lg shadow-md text-center">
+                    <div class="text-6xl text-rose-200 mb-4"><i class="fas fa-shopping-bag"></i></div>
+                    <h2 class="text-3xl font-display text-gray-800 mb-2">${t.empty_cart_title}</h2>
+                    <p class="text-gray-500 mb-6">${t.empty_cart_desc}</p>
+                    <a href="products.html" class="bg-rose-800 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-rose-900">${t.continue_shopping}</a>
+                </div>`;
+        } else {
+            const itemsHtml = `<div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md"><h2 class="text-3xl font-display text-gray-800 mb-6">${t.your_items} (${window.cartManager.getCartCount()})</h2><div class="space-y-6">${cartItems.map(createCartItemHTML).join('')}</div></div>`;
+            container.innerHTML = itemsHtml + createSummaryHTML();
+            attachActionListeners();
+        }
+        window.cartManager.updateCartDisplay();
+    }
+
+    function createCartItemHTML(item) {
+        return `
+            <div class="flex items-center gap-4 border-b border-gray-200 pb-6">
+                <div class="w-24 h-24 flex-shrink-0"><img src="${item.image_url || 'https://placehold.co/200x200/f0f0f0/cccccc?text=Image'}" alt="${item.name}" class="w-full h-full object-cover rounded-md"></div>
+                <div class="flex-grow"><h3 class="font-semibold text-lg text-gray-800">${item.name}</h3><p class="text-sm text-gray-500">${item.brand}</p><p class="text-rose-700 font-medium mt-1">${formatCurrency(item.price)}</p></div>
+                <div class="flex items-center border border-gray-300 rounded-full h-10"><button class="quantity-btn w-10 h-10 text-gray-600" data-id="${item.id}" data-change="-1">-</button><span class="px-3 text-center">${item.quantity}</span><button class="quantity-btn w-10 h-10 text-gray-600" data-id="${item.id}" data-change="1">+</button></div>
+                <div class="w-24 text-right"><p class="font-semibold text-lg">${formatCurrency(item.price * item.quantity)}</p></div>
+                <div class="w-10 text-right"><button class="remove-btn text-gray-400 hover:text-red-500" data-id="${item.id}"><i class="fas fa-trash"></i></button></div>
+            </div>`;
+    }
+
+    function createSummaryHTML() {
+        const cartItems = window.cartManager.cart;
+        const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const shipping = subtotal > 50 ? 0 : 9.99;
+        const tax = subtotal * 0.08;
+        const total = subtotal + shipping + tax;
+        const t = translations[currentLang];
+
+        return `
+            <aside class="lg:col-span-1"><div class="bg-white p-6 rounded-lg shadow-md sticky top-28">
+                <h3 class="text-3xl font-display text-gray-800 mb-6">${t.order_summary}</h3>
+                <div class="space-y-3 text-gray-600">
+                    <div class="flex justify-between"><span>${t.subtotal}</span><span>${formatCurrency(subtotal)}</span></div>
+                    <div class="flex justify-between"><span>${t.shipping}</span><span>${shipping === 0 ? t.free_shipping : formatCurrency(shipping)}</span></div>
+                    <div class="flex justify-between"><span>${t.tax}</span><span>${formatCurrency(tax)}</span></div>
+                </div>
+                <hr class="my-4">
+                <div class="flex justify-between font-bold text-xl text-gray-900 mb-6"><span>${t.total}</span><span>${formatCurrency(total)}</span></div>
+                <div class="flex flex-col gap-3">
+                    <a href="checkout.html" class="w-full text-center bg-rose-800 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-rose-900">${t.checkout_button}</a>
+                    <a href="products.html" class="w-full text-center bg-gray-100 text-gray-800 font-semibold px-8 py-3 rounded-full hover:bg-gray-200">${t.continue_shopping}</a>
+                </div>
+            </div></aside>`;
+    }
+
+    function attachActionListeners() {
+        document.querySelectorAll('.quantity-btn').forEach(button => button.addEventListener('click', (e) => {
+            const id = e.currentTarget.dataset.id;
+            const change = parseInt(e.currentTarget.dataset.change);
+            const item = window.cartManager.cart.find(i => i.id === id);
+            if (item) { window.cartManager.updateQuantity(id, item.quantity + change); }
+        }));
+        document.querySelectorAll('.remove-btn').forEach(button => button.addEventListener('click', (e) => {
+            window.cartManager.removeFromCart(e.currentTarget.dataset.id);
+        }));
+    }
+    
+    const mobileMenu = document.getElementById('mobileMenu'), mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    const openMenu = () => { mobileMenu.classList.remove('translate-x-full'); mobileMenuOverlay.classList.remove('hidden'); };
+    const closeMenu = () => { mobileMenu.classList.add('translate-x-full'); mobileMenuOverlay.classList.add('hidden'); };
+    document.getElementById('mobileMenuToggle').addEventListener('click', openMenu);
+    document.getElementById('closeMobileMenu').addEventListener('click', closeMenu);
+    mobileMenuOverlay.addEventListener('click', closeMenu);
+
+    setLanguage(currentLang);
+});
+</script>
+
+</body>
+</html>
