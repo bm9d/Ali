@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="scroll-smooth">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,7 @@
         h1, h2, h3, h4, .font-display { font-family: 'Cormorant Garamond', serif; }
         html[dir="rtl"] body, html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] h4, html[dir="rtl"] .font-display, html[dir="rtl"] button, html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] a { font-family: 'Cairo', sans-serif; }
         .progress-step:not(:last-child) .progress-step-label::after { content: ''; position: absolute; top: 50%; left: 100%; width: 100%; height: 2px; background-color: #e5e7eb; transform: translateY(-50%); z-index: -1; }
+        html[dir="rtl"] .progress-step:not(:last-child) .progress-step-label::after { right: 100%; left: auto; }
         .progress-step.completed .progress-step-label::after { background-color: #9f1239; }
     </style>
 </head>
@@ -33,7 +34,7 @@
             <div class="flex justify-between items-center py-4">
                 <a href="index.html" class="text-3xl font-bold font-display text-rose-900">Nebulla Fragrance</a>
                 <div class="flex items-center space-x-4">
-                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">AR</button>
+                    <button id="lang-switcher" class="text-gray-600 hover:text-rose-500 font-semibold text-sm px-3 py-1 border border-gray-300 rounded-full">EN</button>
                     <a href="cart.html" class="relative text-gray-600 hover:text-rose-500">
                         <i class="fas fa-shopping-bag fa-lg"></i>
                         <span id="cartCount" class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     let currentStep = 1;
     const langSwitcher = document.getElementById('lang-switcher');
-    let currentLang = localStorage.getItem('nebulla-lang') || 'en';
+    let currentLang = localStorage.getItem('nebulla-lang') || 'ar';
 
     function setLanguage(lang) {
         currentLang = lang;
